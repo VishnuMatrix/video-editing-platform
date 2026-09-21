@@ -1,0 +1,368 @@
+:root {
+  --ps-bg: #0a0a0a;
+  --ps-fg: #f2f2f2;
+  --ps-muted: #8a8a8a;
+  --ps-accent: #2ecfe0;
+  --ps-border: rgba(255, 255, 255, 0.1);
+}
+
+.ps-root {
+  position: relative;
+  background: var(--ps-bg);
+  color: var(--ps-fg);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  overflow: visible;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  max-height: none;
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+/* ============ MARQUEE ============ */
+
+.ps-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--ps-border);
+}
+
+.ps-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: ps-marquee-scroll 22s linear infinite;
+}
+
+.ps-marquee-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@keyframes ps-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ps-marquee-word {
+  font-size: clamp(48px, 7vw, 100px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: rgba(255, 255, 255, 0.06);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+}
+
+.ps-marquee-dot {
+  color: var(--ps-accent);
+  font-size: 14px;
+  margin: 0 32px;
+  opacity: 0.5;
+}
+
+/* ============ LAYOUT ============ */
+
+.ps-inner {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 60px 4vw 100px;
+  box-sizing: border-box;
+}
+
+/* Header */
+
+.ps-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.ps-section-number {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ps-accent);
+  letter-spacing: 1px;
+}
+
+.ps-header-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--ps-border);
+}
+
+.ps-eyebrow {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--ps-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ps-heading-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.ps-title {
+  font-size: clamp(40px, 6vw, 76px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 0.95;
+}
+
+.ps-title-outline {
+  -webkit-text-stroke: 1.5px var(--ps-fg);
+  color: transparent;
+}
+
+.ps-intro {
+  max-width: 380px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ps-muted);
+  margin: 0;
+}
+
+/* ============ TIMELINE ============ */
+
+.ps-timeline {
+  position: relative;
+}
+
+.ps-line-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 322px;
+  width: 1px;
+  background: var(--ps-border);
+}
+
+.ps-line-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--ps-accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.1s linear;
+}
+
+.ps-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 300px 44px 1fr;
+  gap: 0 40px;
+  align-items: start;
+  margin-bottom: 32px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ps-row > * {
+  min-width: 0;
+}
+
+.ps-row-compact {
+  grid-template-columns: 300px 44px 1fr;
+}
+
+.ps-row-spacer {
+  visibility: hidden;
+}
+
+.ps-node {
+  position: relative;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--ps-accent);
+  background: var(--ps-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ps-accent);
+  margin-top: 4px;
+}
+
+/* Sidebar */
+
+.ps-sidebar {
+  border: 1px solid var(--ps-border);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ps-sidebar-label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--ps-muted);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.ps-sidebar-big {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.ps-accent {
+  color: var(--ps-accent);
+}
+
+.ps-sidebar-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ps-muted);
+  margin: 0 0 20px;
+}
+
+.ps-sidebar-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.ps-sidebar-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--ps-muted);
+  text-transform: uppercase;
+  padding: 12px 0;
+  border-top: 1px solid var(--ps-border);
+}
+
+.ps-sidebar-value {
+  color: var(--ps-fg);
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Phase card */
+
+.ps-card {
+  border: 1px solid var(--ps-border);
+  padding: 32px;
+}
+
+.ps-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.ps-card-title {
+  margin: 0;
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+.ps-card-num {
+  color: var(--ps-accent);
+  font-size: 16px;
+  vertical-align: super;
+  margin-right: 4px;
+}
+
+.ps-card-phase {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--ps-muted);
+  white-space: nowrap;
+  margin-top: 8px;
+}
+
+.ps-card-tags {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--ps-accent);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.ps-card-body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #cfcfcf;
+  max-width: 640px;
+  margin: 0 0 24px;
+}
+
+.ps-card-deliverable {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ps-border);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--ps-muted);
+  text-transform: uppercase;
+}
+
+.ps-card-deliverable-line {
+  flex: 0 0 32px;
+  height: 1px;
+  background: var(--ps-border);
+}
+
+.ps-card-deliverable-value {
+  color: var(--ps-fg);
+  font-weight: 700;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  .ps-line-track {
+    left: 22px;
+  }
+
+  .ps-row,
+  .ps-row-compact {
+    grid-template-columns: 44px 1fr;
+    gap: 0 20px;
+  }
+
+  .ps-row > .ps-sidebar {
+    display: none;
+  }
+
+  .ps-row-spacer {
+    display: none;
+  }
+
+  .ps-card {
+    padding: 24px;
+  }
+}

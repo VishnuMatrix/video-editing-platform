@@ -1,0 +1,923 @@
+/* =========================================================
+   SHARED: MARQUEE MECHANICS
+========================================================= */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* =========================================================
+   SHARED: FLOATING CARD BASE
+========================================================= */
+
+.floating-card,
+.process-floating-card {
+  will-change: transform;
+}
+
+/* =========================================================
+   SHOWCASE WRAPPER
+========================================================= */
+
+.showcase-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* =========================================================
+   WORK SECTION
+========================================================= */
+
+.work-section {
+  position: relative;
+
+  background: #0a0a0a;
+
+  color: #fff;
+
+  padding: 60px 0 120px;
+
+  overflow: hidden;
+
+  z-index: 5;
+}
+
+/*
+=========================================================
+WORK SLIDE WRAPPER
+
+This is the element that actually slides upward.
+=========================================================
+*/
+
+.work-slide-wrapper {
+  position: relative;
+
+  width: 100%;
+
+  transform-origin: center top;
+
+  will-change:
+    transform,
+    opacity;
+}
+
+/* =========================================================
+   CLIENTS MARQUEE
+========================================================= */
+
+.clients-section {
+  text-align: center;
+
+  margin-bottom: 40px;
+}
+
+.clients-label {
+  font-size: 0.75rem;
+
+  letter-spacing: 0.2em;
+
+  color: #888;
+
+  margin-bottom: 24px;
+}
+
+.clients-marquee {
+  overflow: hidden;
+
+  width: 100%;
+}
+
+.clients-track {
+  display: flex;
+
+  width: max-content;
+
+  animation:
+    marquee 25s linear infinite;
+
+  will-change: transform;
+}
+
+.clients-group {
+  display: flex;
+
+  align-items: center;
+
+  gap: 60px;
+
+  padding-right: 60px;
+
+  flex-shrink: 0;
+}
+
+.client-item {
+  display: flex;
+
+  align-items: center;
+
+  flex-shrink: 0;
+}
+
+.client-logo {
+  height: 28px;
+
+  width: auto;
+
+  opacity: 0.9;
+
+  filter:
+    brightness(0)
+    invert(1);
+}
+
+/* =========================================================
+   WORK SHOWCASE
+========================================================= */
+
+.work-showcase {
+  position: relative;
+
+  width: 100%;
+}
+
+.work-canvas {
+  position: relative;
+
+  width: 100%;
+
+  min-height: 780px;
+}
+
+/* =========================================================
+   FLOATING CARDS
+========================================================= */
+
+.floating-card {
+  position: absolute;
+
+  /*
+    IMPORTANT:
+
+    No transform here.
+
+    Framer Motion controls transform.
+  */
+}
+
+/* =========================================================
+   CARD POSITIONS
+========================================================= */
+
+.card-one {
+  top: 260px;
+  left: -2%;
+  width: 340px;
+}
+
+.card-two {
+  top: 380px;
+  left: 16%;
+  width: 340px;
+}
+
+.card-three {
+  top: 130px;
+  left: 32%;
+  width: 340px;
+}
+
+.card-four {
+  top: 140px;
+  left: 52%;
+  width: 340px;
+}
+
+.card-five {
+  top: 100px;
+  right: 2%;
+  width: 320px;
+}
+
+.card-six {
+  top: 400px;
+  right: 4%;
+  width: 340px;
+}
+
+.card-seven {
+  top: 420px;
+  left: 44%;
+  width: 340px;
+}
+
+.card-eight {
+  top: 560px;
+  left: 26%;
+  width: 300px;
+}
+
+/* =========================================================
+   WORK CARD
+========================================================= */
+
+.work-card {
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  border: 1px solid #2ecfe0;
+
+  box-shadow:
+    0 20px 50px
+    rgba(0, 0, 0, 0.6);
+
+  background: #1a1a1a;
+}
+
+/* =========================================================
+   VIDEO CARD
+========================================================= */
+
+.video-card {
+  position: relative;
+}
+
+.video-card img {
+  width: 100%;
+
+  display: block;
+
+  aspect-ratio: 4 / 3;
+
+  object-fit: cover;
+}
+
+.project-play {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(0, 0, 0, 0.6);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 1rem;
+}
+
+/* =========================================================
+   TESTIMONIAL CARD
+========================================================= */
+
+.testimonial-card {
+  padding: 22px;
+
+  background: #232323;
+}
+
+.testimonial-text {
+  font-size: 0.85rem;
+
+  line-height: 1.5;
+
+  color: #ddd;
+
+  margin-bottom: 18px;
+}
+
+.testimonial-footer {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+
+  background: #2ecfe0;
+
+  color: #000;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-weight: 700;
+
+  flex-shrink: 0;
+}
+
+.author-name {
+  font-size: 0.85rem;
+
+  font-weight: 600;
+}
+
+.author-role {
+  font-size: 0.75rem;
+
+  color: #999;
+}
+
+.stars {
+  color: #2ecfe0;
+
+  font-size: 0.75rem;
+
+  margin-top: 2px;
+}
+
+/* =========================================================
+   WORK MARQUEE
+========================================================= */
+
+.work-marquee {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-top: 40px;
+
+  z-index: 0;
+
+  pointer-events: none;
+}
+
+.work-track {
+  display: flex;
+
+  width: max-content;
+
+  animation:
+    marquee 20s linear infinite;
+
+  will-change: transform;
+}
+
+.work-group {
+  display: flex;
+
+  align-items: center;
+
+  gap: 24px;
+
+  padding-right: 24px;
+
+  flex-shrink: 0;
+}
+
+.work-group span {
+  font-size: 6rem;
+
+  font-weight: 700;
+
+  color: #1c1c1c;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 24px;
+
+  white-space: nowrap;
+}
+
+.work-group b {
+  color: #2ecfe0;
+
+  font-size: 1rem;
+}
+
+/* =========================================================
+   SELECTED WORK
+========================================================= */
+
+.selected-work {
+  text-align: center;
+
+  margin-top: 60px;
+
+  position: relative;
+
+  z-index: 3;
+}
+
+.selected-work p {
+  font-size: 0.75rem;
+
+  letter-spacing: 0.2em;
+
+  color: #2ecfe0;
+
+  margin-bottom: 12px;
+}
+
+.selected-work h2 {
+  font-size: 2.5rem;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   PROCESS SECTION
+========================================================= */
+
+.process-section {
+  position: relative;
+
+  width: 100%;
+
+  height: 420px;
+
+  overflow: hidden;
+
+  background: #0a0a0a;
+
+  color: #ffffff;
+
+  z-index: 6;
+}
+
+/*
+=========================================================
+PROCESS SLIDE WRAPPER
+
+This gives Process its own entrance.
+=========================================================
+*/
+
+.process-slide-wrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  transform-origin: center top;
+  will-change: transform, opacity;
+}
+
+/* =========================================================
+   PROCESS CARD AREA
+========================================================= */
+
+.process-card-area {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   PROCESS CARDS
+========================================================= */
+
+.process-floating-card {
+  position: absolute;
+
+  width: 300px;
+
+  min-height: 185px;
+
+  padding: 25px;
+
+  border-radius: 18px;
+
+  border:
+    1px solid
+    rgba(46, 207, 224, 0.55);
+
+  background: #252525;
+
+  box-shadow:
+    0 25px 70px
+    rgba(0, 0, 0, 0.55);
+
+  pointer-events: auto;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  will-change: transform;
+}
+
+.process-card-one {
+  top: 120px;
+  left: -40px;
+}
+
+.process-card-two {
+  top: 210px;
+  left: 24%;
+}
+
+.process-card-three {
+  top: 100px;
+  right: 24%;
+}
+
+.process-card-four {
+  top: 250px;
+  right: -40px;
+}
+
+/* =========================================================
+   PROCESS CARD HOVER
+========================================================= */
+
+.process-floating-card:hover {
+  border-color:
+    rgba(46, 207, 224, 0.9);
+
+  box-shadow:
+    0 30px 80px
+    rgba(0, 0, 0, 0.65),
+    0 0 35px
+    rgba(46, 207, 224, 0.08);
+}
+
+/* =========================================================
+   PROCESS CARD CONTENT
+========================================================= */
+
+.process-card-number {
+  display: block;
+
+  margin-bottom: 22px;
+
+  font-size: 10px;
+
+  letter-spacing: 0.25em;
+
+  color: #2ecfe0;
+}
+
+.process-floating-card h3 {
+  margin: 0 0 10px;
+
+  font-size: 25px;
+
+  line-height: 1;
+
+  font-weight: 600;
+
+  letter-spacing: -0.04em;
+
+  color: #ffffff;
+}
+
+.process-floating-card p {
+  width: 100%;
+
+  max-width: 245px;
+
+  margin: 0;
+
+  font-size: 11px;
+
+  line-height: 1.65;
+
+  color:
+    rgba(255, 255, 255, 0.48);
+}
+
+.process-card-line {
+  width: 35px;
+
+  height: 1px;
+
+  margin-top: 20px;
+
+  background: #2ecfe0;
+
+  opacity: 0.7;
+}
+
+/* =========================================================
+   PROCESS MARQUEE
+========================================================= */
+
+.process-marquee {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  top: 500px;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+}
+
+.process-track {
+  display: flex;
+
+  width: max-content;
+
+  animation:
+    marquee 24s linear infinite;
+
+  will-change: transform;
+}
+
+.process-group {
+  display: flex;
+
+  align-items: center;
+
+  gap: 70px;
+
+  padding-right: 70px;
+
+  flex-shrink: 0;
+}
+
+.process-group span {
+  display: inline-block;
+
+  white-space: nowrap;
+
+  font-size: 86px;
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: -0.07em;
+
+  color:
+    rgba(255, 255, 255, 0.15);
+}
+
+.process-group b {
+  display: inline-block;
+
+  font-size: 8px;
+
+  font-weight: 400;
+
+  color: #ff3154;
+}
+
+/* =========================================================
+   PROCESS LABEL
+========================================================= */
+
+.process-label {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  bottom: 55px;
+
+  z-index: 5;
+
+  text-align: center;
+}
+
+.process-label span {
+  font-size: 10px;
+
+  letter-spacing: 0.35em;
+
+  color:
+    rgba(255, 255, 255, 0.3);
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .process-floating-card {
+    width: 250px;
+
+    min-height: 165px;
+
+    padding: 20px;
+  }
+
+  .process-card-two {
+    left: 20%;
+  }
+
+  .process-card-three {
+    right: 20%;
+  }
+
+  .process-group span {
+    font-size: 72px;
+  }
+}
+
+/* =========================================================
+   MOBILE WORK
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .work-section {
+    padding:
+      50px 0 90px;
+  }
+
+  .work-canvas {
+    min-height: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+  }
+
+  .floating-card {
+    position: relative !important;
+
+    top: auto !important;
+
+    left: auto !important;
+
+    right: auto !important;
+
+    width: 90% !important;
+
+    margin: 0 auto;
+
+    transform: none;
+  }
+
+  .work-group span {
+    font-size: 4rem;
+  }
+}
+
+/* =========================================================
+   MOBILE PROCESS
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .process-section {
+    height: 420px;
+  }
+
+  .process-floating-card {
+    width: 205px;
+
+    min-height: 135px;
+
+    padding: 17px;
+
+    border-radius: 14px;
+  }
+
+  .process-card-one {
+    top: 90px;
+    left: -70px;
+  }
+
+  .process-card-two {
+    top: 145px;
+    left: 18%;
+  }
+
+  .process-card-three {
+    top: 85px;
+    right: -70px;
+  }
+
+  .process-card-four {
+    top: 300px;
+    right: 18%;
+  }
+
+  .process-card-number {
+    margin-bottom: 13px;
+
+    font-size: 8px;
+  }
+
+  .process-floating-card h3 {
+    margin-bottom: 7px;
+
+    font-size: 19px;
+  }
+
+  .process-floating-card p {
+    max-width: 170px;
+
+    font-size: 8px;
+
+    line-height: 1.5;
+  }
+
+  .process-card-line {
+    width: 25px;
+
+    margin-top: 13px;
+  }
+
+  .process-marquee {
+    top: 400px;
+  }
+
+  .process-track {
+    animation-duration: 18s;
+  }
+
+  .process-group {
+    gap: 35px;
+
+    padding-right: 35px;
+  }
+
+  .process-group span {
+    font-size: 55px;
+  }
+
+  .process-group b {
+    font-size: 5px;
+  }
+
+  .process-label {
+    bottom: 35px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .clients-track,
+  .work-track,
+  .process-track {
+    animation-play-state: paused;
+  }
+
+  .floating-card,
+  .process-floating-card {
+    will-change: auto;
+  }
+}

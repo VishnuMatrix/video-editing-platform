@@ -1,0 +1,502 @@
+/* =========================================
+   TIMELINE SECTION
+========================================= */
+
+.timeline-section {
+  position: relative;
+
+  width: 100%;
+
+  min-height: 900px;
+
+  padding: 0 0 140px;
+
+  background: #0a0a0a;
+
+  color: #fff;
+
+  overflow: hidden;
+}
+
+
+/* =========================================
+   MOVING BACKGROUND TEXT
+========================================= */
+
+.timeline-marquee {
+  width: 100%;
+
+  overflow: hidden;
+
+  padding: 35px 0;
+
+  margin-bottom: 20px;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+
+.timeline-marquee-track {
+  display: flex;
+
+  width: max-content;
+
+  will-change: transform;
+}
+
+
+.timeline-marquee-group {
+  display: flex;
+
+  align-items: center;
+
+  gap: 40px;
+
+  padding-right: 40px;
+
+  flex-shrink: 0;
+}
+
+
+.timeline-marquee-group span {
+  white-space: nowrap;
+
+  font-size: clamp(50px, 7vw, 90px);
+
+  font-weight: 700;
+
+  letter-spacing: -0.06em;
+
+  color: #181818;
+}
+
+
+.timeline-marquee-group b {
+  color: #2ecfe0;
+
+  font-size: 14px;
+}
+
+
+/* =========================================
+   INTRO
+========================================= */
+
+.timeline-intro {
+  text-align: center;
+
+  margin: 50px auto 70px;
+
+  position: relative;
+
+  z-index: 3;
+}
+
+
+.timeline-intro p {
+  margin-bottom: 18px;
+
+  font-size: 10px;
+
+  letter-spacing: 0.35em;
+
+  color: #777;
+}
+
+
+.timeline-intro h2 {
+  margin: 0;
+
+  font-size: clamp(35px, 5vw, 65px);
+
+  line-height: 1;
+
+  letter-spacing: -0.055em;
+}
+
+
+.timeline-intro h2 span {
+  color: #333;
+}
+
+
+/* =========================================
+   TIMELINE WINDOW
+========================================= */
+
+.timeline-window {
+  position: relative;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  padding: 80px 0 100px;
+}
+
+
+.timeline-track {
+  display: flex;
+
+  width: max-content;
+
+  will-change: transform;
+}
+
+
+.timeline-group {
+  display: flex;
+
+  align-items: center;
+
+  gap: 150px;
+
+  padding-right: 150px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   TIMELINE ITEM
+========================================= */
+
+.timeline-item {
+  position: relative;
+
+  width: 370px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.timeline-card {
+  position: relative;
+
+  width: 370px;
+
+  min-height: 205px;
+
+  padding: 28px 30px;
+
+  background: #202020;
+
+  border: 1px solid #216e76;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.55);
+
+  transform-origin: center;
+
+  will-change: transform;
+}
+
+
+/* =========================================
+   NUMBER
+========================================= */
+
+.timeline-number {
+  display: block;
+
+  margin-bottom: 20px;
+
+  font-size: 10px;
+
+  letter-spacing: 0.25em;
+
+  color: #2ecfe0;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.timeline-card h3 {
+  margin: 0 0 14px;
+
+  font-size: 29px;
+
+  line-height: 1;
+
+  letter-spacing: -0.04em;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.timeline-card p {
+  max-width: 290px;
+
+  margin: 0;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  color: #777;
+}
+
+
+/* =========================================
+   SMALL LINE
+========================================= */
+
+.timeline-small-line {
+  width: 40px;
+
+  height: 1px;
+
+  margin-top: 25px;
+
+  background: #2ecfe0;
+}
+
+
+/* =========================================
+   CARD VARIATION
+========================================= */
+
+.timeline-item:nth-child(1) {
+  transform: rotate(-4deg);
+}
+
+.timeline-item:nth-child(2) {
+  transform: rotate(3deg);
+}
+
+.timeline-item:nth-child(3) {
+  transform: rotate(-3deg);
+}
+
+.timeline-item:nth-child(4) {
+  transform: rotate(4deg);
+}
+
+
+/* =========================================
+   CONNECTOR DOT
+========================================= */
+
+.timeline-item::after {
+  content: "";
+
+  position: absolute;
+
+  right: -92px;
+
+  top: 50%;
+
+  width: 10px;
+
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #2ecfe0;
+
+  box-shadow:
+    0 0 15px rgba(46, 207, 224, 0.5);
+
+  transform: translateY(-50%);
+
+  z-index: 4;
+}
+
+
+/* =========================================
+   HORIZONTAL TIMELINE LINE
+========================================= */
+
+.timeline-line {
+  position: absolute;
+
+  left: 0;
+
+  right: 0;
+
+  top: 610px;
+
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.07);
+
+  overflow: hidden;
+}
+
+
+.timeline-line-track {
+  position: absolute;
+
+  width: 25%;
+
+  height: 1px;
+
+  background: #2ecfe0;
+
+  box-shadow:
+    0 0 15px rgba(46, 207, 224, 0.7);
+}
+
+
+/* =========================================
+   BOTTOM
+========================================= */
+
+.timeline-bottom {
+  position: relative;
+
+  z-index: 3;
+
+  text-align: center;
+
+  margin-top: 50px;
+}
+
+
+.timeline-bottom p {
+  margin-bottom: 20px;
+
+  font-size: 10px;
+
+  letter-spacing: 0.3em;
+
+  color: #666;
+}
+
+
+.timeline-bottom h3 {
+  margin: 0;
+
+  font-size: clamp(35px, 5vw, 65px);
+
+  line-height: 1;
+
+  letter-spacing: -0.05em;
+}
+
+
+.timeline-bottom h3 span {
+  color: #333;
+}
+
+
+.timeline-bottom button {
+  margin-top: 30px;
+
+  padding: 13px 22px;
+
+  border-radius: 30px;
+
+  border: 1px solid #282828;
+
+  background: #111;
+
+  color: #fff;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+
+.timeline-bottom button span {
+  margin-left: 8px;
+
+  color: #2ecfe0;
+}
+
+
+.timeline-bottom button:hover {
+  border-color: #2ecfe0;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .timeline-section {
+    min-height: 750px;
+
+    padding-bottom: 100px;
+  }
+
+
+  .timeline-marquee-group span {
+    font-size: 48px;
+  }
+
+
+  .timeline-group {
+    gap: 80px;
+
+    padding-right: 80px;
+  }
+
+
+  .timeline-item {
+    width: 280px;
+  }
+
+
+  .timeline-card {
+    width: 280px;
+
+    min-height: 180px;
+
+    padding: 23px;
+  }
+
+
+  .timeline-card h3 {
+    font-size: 24px;
+  }
+
+
+  .timeline-card p {
+    font-size: 12px;
+  }
+
+
+  .timeline-item::after {
+    right: -50px;
+
+    width: 8px;
+
+    height: 8px;
+  }
+
+
+  .timeline-line {
+    top: 570px;
+  }
+
+}
