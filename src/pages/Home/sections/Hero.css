@@ -171,7 +171,7 @@
 }
 
 .hero-corner-top-right span:first-child {
-  color: #28d7ff;
+  color: #A47E1B;
 }
 
 
@@ -229,11 +229,11 @@
 
   border-radius: 50%;
 
-  background: #28d7ff;
+  background: #A47E1B;
 
   box-shadow:
     0 0 15px
-    rgba(40, 215, 255, 0.7);
+    rgba(164, 126, 27, 0.7);
 }
 
 
@@ -269,7 +269,7 @@
 }
 
 .hero-content h1 span {
-  color: #28d7ff;
+  color: #A47E1B;
 }
 
 
@@ -414,9 +414,9 @@
 }
 
 .hero-reel:hover {
-  background: #28d7ff;
+  background: #A47E1B;
 
-  border-color: #28d7ff;
+  border-color: #A47E1B;
 
   color: #050607;
 }
@@ -497,7 +497,7 @@
 
   height: 100%;
 
-  background: #28d7ff;
+  background: #A47E1B;
 
   animation:
     scrollProgress 2s

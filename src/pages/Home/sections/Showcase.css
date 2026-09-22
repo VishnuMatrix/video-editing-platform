@@ -233,7 +233,7 @@ This is the element that actually slides upward.
 
   overflow: hidden;
 
-  border: 1px solid #2ecfe0;
+  border: 1px solid #A47E1B;
 
   box-shadow:
     0 20px 50px
@@ -320,7 +320,7 @@ This is the element that actually slides upward.
 
   border-radius: 50%;
 
-  background: #2ecfe0;
+  background: #A47E1B;
 
   color: #000;
 
@@ -348,7 +348,7 @@ This is the element that actually slides upward.
 }
 
 .stars {
-  color: #2ecfe0;
+  color: #A47E1B;
 
   font-size: 0.75rem;
 
@@ -411,7 +411,7 @@ This is the element that actually slides upward.
 }
 
 .work-group b {
-  color: #2ecfe0;
+  color: #A47E1B;
 
   font-size: 1rem;
 }
@@ -435,7 +435,7 @@ This is the element that actually slides upward.
 
   letter-spacing: 0.2em;
 
-  color: #2ecfe0;
+  color: #A47E1B;
 
   margin-bottom: 12px;
 }
@@ -518,7 +518,7 @@ This gives Process its own entrance.
 
   border:
     1px solid
-    rgba(46, 207, 224, 0.55);
+    rgba(164, 126, 27, 0.55);
 
   background: #252525;
 
@@ -561,13 +561,13 @@ This gives Process its own entrance.
 
 .process-floating-card:hover {
   border-color:
-    rgba(46, 207, 224, 0.9);
+    rgba(164, 126, 27, 0.9);
 
   box-shadow:
     0 30px 80px
     rgba(0, 0, 0, 0.65),
     0 0 35px
-    rgba(46, 207, 224, 0.08);
+    rgba(164, 126, 27, 0.08);
 }
 
 /* =========================================================
@@ -583,7 +583,7 @@ This gives Process its own entrance.
 
   letter-spacing: 0.25em;
 
-  color: #2ecfe0;
+  color: #A47E1B;
 }
 
 .process-floating-card h3 {
@@ -622,7 +622,7 @@ This gives Process its own entrance.
 
   margin-top: 20px;
 
-  background: #2ecfe0;
+  background: #A47E1B;
 
   opacity: 0.7;
 }
@@ -713,7 +713,7 @@ This gives Process its own entrance.
 
   font-weight: 400;
 
-  color: #ff3154;
+  color: #A47E1B;
 }
 
 /* =========================================================

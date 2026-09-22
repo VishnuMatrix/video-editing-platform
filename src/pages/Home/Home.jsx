@@ -1,6 +1,7 @@
 import Navbar from "../../components/navbar/Navbar";
 import Hero from "./sections/Hero";
 import Showcase from "./sections/Showcase";
+import Footer from "../../components/footer/Footer";
 
 function Home() {
   return (
@@ -8,6 +9,7 @@ function Home() {
       <Navbar />
       <Hero />
       <Showcase />
+      <Footer />
     </main>
   );
 }
