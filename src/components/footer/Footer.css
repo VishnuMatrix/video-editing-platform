@@ -214,7 +214,7 @@
 .footer-brand span {
   color: transparent;
 
-  -webkit-text-stroke: 1px rgba(40, 215, 255, 0.12);
+  -webkit-text-stroke: 1px rgba(164, 126, 27, 0.12);
 }
 
 /* =========================================
@@ -255,7 +255,7 @@
 
   background: var(--footer-accent);
 
-  box-shadow: 0 0 10px rgba(40, 215, 255, 0.7);
+  box-shadow: 0 0 10px rgba(164, 126, 27, 0.7);
 }
 
 /* =========================================

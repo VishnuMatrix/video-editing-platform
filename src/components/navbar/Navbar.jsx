@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
@@ -10,110 +11,55 @@ function Navbar() {
 
   return (
     <header className="navbar">
-
-      {/* LEFT SIDE */}
-
       <div className="navbar-left">
-
-        <a
-          href="#home"
-          className="navbar-logo-mobile"
-          onClick={closeMenu}
-        >
+        <Link to="/" className="navbar-logo-mobile" onClick={closeMenu}>
           OF
-        </a>
+        </Link>
 
         <nav className="navbar-links">
-
-          <a href="#home">Home</a>
-
-          <a href="#about">About</a>
-
-          <a href="#work">Work</a>
-
-          <a href="#blog">Blog</a>
-
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/services">Services</Link>
+          <Link to="/portfolio">Portfolio</Link>
+          <Link to="/pricing">Pricing</Link>
+          <Link to="/contact">Contact</Link>
         </nav>
-
       </div>
 
-
-      {/* CENTER LOGO */}
-
-      <a
-        href="#home"
-        className="navbar-logo"
-      >
-        <span className="logo-mark">
-          OF
-        </span>
-
-        <span className="logo-text">
-          ONEFOREDITS
-        </span>
-      </a>
-
-
-      {/* RIGHT SIDE */}
+      <Link to="/" className="navbar-logo">
+        <span className="logo-mark">OF</span>
+        <span className="logo-text">ONEFOREDITS</span>
+      </Link>
 
       <div className="navbar-right">
-
         <span className="navbar-status">
           <span className="status-dot" />
           AVAILABLE
         </span>
 
-        <a
-          href="#contact"
-          className="navbar-button"
-        >
+        <Link to="/login" className="navbar-button" onClick={closeMenu}>
           Get Started
-        </a>
+        </Link>
 
         <button
-          className={`menu-button ${
-            menuOpen ? "active" : ""
-          }`}
+          className={`menu-button ${menuOpen ? "active" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
           <span />
           <span />
         </button>
-
       </div>
 
-
-      {/* MOBILE MENU */}
-
-      <div
-        className={`mobile-menu ${
-          menuOpen ? "open" : ""
-        }`}
-      >
-
-        <a href="#home" onClick={closeMenu}>
-          Home
-        </a>
-
-        <a href="#about" onClick={closeMenu}>
-          About
-        </a>
-
-        <a href="#work" onClick={closeMenu}>
-          Work
-        </a>
-
-        <a href="#blog" onClick={closeMenu}>
-          Blog
-        </a>
-
-        <a href="#contact" onClick={closeMenu}>
-          Get Started
-        </a>
-
+      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+        <Link to="/" onClick={closeMenu}>Home</Link>
+        <Link to="/about" onClick={closeMenu}>About</Link>
+        <Link to="/services" onClick={closeMenu}>Services</Link>
+        <Link to="/portfolio" onClick={closeMenu}>Portfolio</Link>
+        <Link to="/pricing" onClick={closeMenu}>Pricing</Link>
+        <Link to="/contact" onClick={closeMenu}>Contact</Link>
+        <Link to="/login" onClick={closeMenu}>Get Started</Link>
       </div>
-
     </header>
   );
 }

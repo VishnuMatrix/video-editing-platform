@@ -1,8 +1,11 @@
-import Home from "./pages/Home/Home";
+import { AuthProvider } from './context/AuthContext';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (
-    <Home/>
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }
 
