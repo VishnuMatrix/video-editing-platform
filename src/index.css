@@ -7,8 +7,74 @@
   --text-secondary: #8a8a8a;
   --text-muted: #555555;
 
-  --accent: #28d7ff;
+  --primary: #A47E1B;
+  --primary-soft: rgba(164, 126, 27, 0.14);
+  --primary-strong: #d8b15d;
+  --accent: #A47E1B;
 
   --border: rgba(255, 255, 255, 0.10);
-  --border-accent: rgba(40, 215, 255, 0.45);
+  --border-accent: rgba(164, 126, 27, 0.45);
 }
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+#root > *:not(.dashboard-shell):not(.auth-page) {
+  padding-top: 76px;
+}
+
+#root > .auth-page,
+#root > .dashboard-shell {
+  padding-top: 0;
+}
+
+.button-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: rgba(17, 17, 17, 0.95);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+a {
+  color: inherit;
+}
+
