@@ -420,7 +420,7 @@ function Hero() {
 
         <div className="hero-footer-left">
           <span>
-            © ONEFOREDITS
+            © ABNOXIOUS EDITS
           </span>
         </div>
 

@@ -1,8 +1,135 @@
 /* =========================================================
-   SHARED: MARQUEE MECHANICS
+   SHOWCASE
 ========================================================= */
 
-@keyframes marquee {
+.showcase-wrapper {
+  --showcase-bg: #080808;
+  --showcase-surface: #101010;
+  --showcase-card: #151515;
+  --showcase-fg: #f5f5f5;
+  --showcase-muted: #858585;
+  --showcase-accent: #a47e1b;
+  --showcase-border: rgba(255, 255, 255, 0.1);
+
+  width: 100%;
+  /* clip (not hidden) so position: sticky keeps working */
+  overflow: clip;
+  background: var(--showcase-bg);
+  color: var(--showcase-fg);
+}
+
+
+/* =========================================================
+   WORK SECTION
+========================================================= */
+
+.showcase-work {
+  position: relative;
+  width: 100%;
+  background: var(--showcase-bg);
+  overflow: clip;
+}
+
+
+/* =========================================================
+   CLIENT SECTION
+========================================================= */
+
+.showcase-clients {
+  position: relative;
+  padding: 30px 0 0;
+  border-top: 1px solid var(--showcase-border);
+}
+
+.showcase-section-label {
+  width: 90%;
+  max-width: 1400px;
+  margin: 0 auto 30px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--showcase-muted);
+}
+
+.showcase-section-label span:first-child {
+  color: var(--showcase-accent);
+  font-weight: 700;
+}
+
+.showcase-section-label span:last-child {
+  position: relative;
+}
+
+.showcase-section-label span:last-child::before {
+  content: "";
+  display: inline-block;
+
+  width: 35px;
+  height: 1px;
+
+  margin-right: 12px;
+
+  vertical-align: middle;
+
+  background: var(--showcase-border);
+}
+
+
+/* =========================================================
+   CLIENT MARQUEE
+========================================================= */
+
+.showcase-client-marquee {
+  width: 100%;
+  overflow: hidden;
+
+  border-top: 1px solid var(--showcase-border);
+  border-bottom: 1px solid var(--showcase-border);
+
+  background: #0b0b0b;
+}
+
+.showcase-client-track {
+  display: flex;
+  width: max-content;
+
+  animation: showcaseClientMove 30s linear infinite;
+
+  will-change: transform;
+}
+
+.showcase-client {
+  min-width: 260px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 13px;
+
+  padding: 30px 50px;
+
+  border-right: 1px solid var(--showcase-border);
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+}
+
+.showcase-client-symbol {
+  color: var(--showcase-accent);
+  font-size: 8px;
+}
+
+@keyframes showcaseClientMove {
   from {
     transform: translateX(0);
   }
@@ -12,735 +139,540 @@
   }
 }
 
-/* =========================================================
-   SHARED: FLOATING CARD BASE
-========================================================= */
-
-.floating-card,
-.process-floating-card {
-  will-change: transform;
-}
 
 /* =========================================================
-   SHOWCASE WRAPPER
+   SELECTED WORK HEADING
 ========================================================= */
 
-.showcase-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
+.showcase-selected {
+  width: 90%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 150px 0 40px;
 }
 
-/* =========================================================
-   WORK SECTION
-========================================================= */
+.showcase-heading {
+  display: grid;
 
-.work-section {
-  position: relative;
+  grid-template-columns: 1fr 1.8fr 1fr;
 
-  background: #0a0a0a;
+  align-items: end;
 
-  color: #fff;
-
-  padding: 60px 0 120px;
-
-  overflow: hidden;
-
-  z-index: 5;
+  gap: 50px;
 }
 
-/*
-=========================================================
-WORK SLIDE WRAPPER
+.showcase-heading-meta {
+  align-self: start;
 
-This is the element that actually slides upward.
-=========================================================
-*/
-
-.work-slide-wrapper {
-  position: relative;
-
-  width: 100%;
-
-  transform-origin: center top;
-
-  will-change:
-    transform,
-    opacity;
-}
-
-/* =========================================================
-   CLIENTS MARQUEE
-========================================================= */
-
-.clients-section {
-  text-align: center;
-
-  margin-bottom: 40px;
-}
-
-.clients-label {
-  font-size: 0.75rem;
-
-  letter-spacing: 0.2em;
-
-  color: #888;
-
-  margin-bottom: 24px;
-}
-
-.clients-marquee {
-  overflow: hidden;
-
-  width: 100%;
-}
-
-.clients-track {
   display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  padding-top: 12px;
+
+  font-size: 9px;
+  letter-spacing: 0.22em;
+
+  color: var(--showcase-muted);
+}
+
+.showcase-heading-meta span:first-child {
+  color: var(--showcase-accent);
+}
+
+.showcase-heading h2 {
+  margin: 0;
+
+  font-size: clamp(70px, 10vw, 155px);
+
+  line-height: 0.78;
+
+  letter-spacing: -0.075em;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.showcase-heading h2 span {
+  color: transparent;
+
+  -webkit-text-stroke: 1.5px var(--showcase-fg);
+}
+
+.showcase-heading p {
+  max-width: 320px;
+
+  margin: 0;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+
+  color: var(--showcase-muted);
+}
+
+
+/* =========================================================
+   HORIZONTAL SCROLL GALLERY
+   (pinned stage, only the cards move)
+========================================================= */
+
+.showcase-hscroll {
+  position: relative;
+  width: 100%;
+}
+
+.showcase-hscroll-sticky {
+  position: sticky;
+  top: 0;
+
+  height: 100vh;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  /* soft fade at both edges: cards appear "out of nowhere" */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+}
+
+.showcase-hscroll-track {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  flex-shrink: 0;
+
+  gap: 110px;
 
   width: max-content;
 
-  animation:
-    marquee 25s linear infinite;
-
   will-change: transform;
 }
 
-.clients-group {
-  display: flex;
-
-  align-items: center;
-
-  gap: 60px;
-
-  padding-right: 60px;
-
-  flex-shrink: 0;
-}
-
-.client-item {
-  display: flex;
-
-  align-items: center;
-
-  flex-shrink: 0;
-}
-
-.client-logo {
-  height: 28px;
-
-  width: auto;
-
-  opacity: 0.9;
-
-  filter:
-    brightness(0)
-    invert(1);
-}
-
-/* =========================================================
-   WORK SHOWCASE
-========================================================= */
-
-.work-showcase {
-  position: relative;
-
-  width: 100%;
-}
-
-.work-canvas {
-  position: relative;
-
-  width: 100%;
-
-  min-height: 780px;
-}
-
-/* =========================================================
-   FLOATING CARDS
-========================================================= */
-
-.floating-card {
-  position: absolute;
-
-  /*
-    IMPORTANT:
-
-    No transform here.
-
-    Framer Motion controls transform.
-  */
-}
-
-/* =========================================================
-   CARD POSITIONS
-========================================================= */
-
-.card-one {
-  top: 260px;
-  left: -2%;
-  width: 340px;
-}
-
-.card-two {
-  top: 380px;
-  left: 16%;
-  width: 340px;
-}
-
-.card-three {
-  top: 130px;
-  left: 32%;
-  width: 340px;
-}
-
-.card-four {
-  top: 140px;
-  left: 52%;
-  width: 340px;
-}
-
-.card-five {
-  top: 100px;
-  right: 2%;
-  width: 320px;
-}
-
-.card-six {
-  top: 400px;
-  right: 4%;
-  width: 340px;
-}
-
-.card-seven {
-  top: 420px;
-  left: 44%;
-  width: 340px;
-}
-
-.card-eight {
-  top: 560px;
-  left: 26%;
-  width: 300px;
-}
-
-/* =========================================================
-   WORK CARD
-========================================================= */
-
-.work-card {
-  border-radius: 16px;
-
-  overflow: hidden;
-
-  border: 1px solid #A47E1B;
-
-  box-shadow:
-    0 20px 50px
-    rgba(0, 0, 0, 0.6);
-
-  background: #1a1a1a;
-}
 
 /* =========================================================
    VIDEO CARD
 ========================================================= */
 
-.video-card {
-  position: relative;
+.showcase-card {
+  flex-shrink: 0;
+
+  cursor: pointer;
+
+  will-change: transform;
 }
 
-.video-card img {
+.showcase-card-media {
+  position: relative;
+
+  height: min(58vh, 520px);
+  aspect-ratio: 9 / 16;
+
+  overflow: hidden;
+
+  border-radius: 14px;
+
+  background: #151515;
+
+  transition: box-shadow 0.4s ease;
+}
+
+.showcase-card:hover .showcase-card-media {
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(164, 126, 27, 0.14);
+}
+
+.showcase-card-media video {
   width: 100%;
+  height: 100%;
 
   display: block;
-
-  aspect-ratio: 4 / 3;
 
   object-fit: cover;
 }
 
-.project-play {
+.showcase-card-play {
   position: absolute;
 
   top: 50%;
   left: 50%;
 
-  transform:
-    translate(-50%, -50%);
+  width: 124px;
+  height: 80px;
 
-  width: 48px;
-  height: 48px;
+  transform: translate(-50%, -50%);
 
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  background:
-    rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+
+  background: rgba(164, 126, 27, 0.85);
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.showcase-card-play.is-hidden {
+  opacity: 0;
+
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
+.showcase-card-info {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 25px;
+
+  padding: 18px 4px 0;
+}
+
+.showcase-card-info > div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.showcase-project-number {
+  color: var(--showcase-accent);
+
+  font-size: 9px;
+
+  letter-spacing: 0.2em;
+}
+
+.showcase-project-category {
+  color: var(--showcase-muted);
+
+  font-size: 9px;
+
+  letter-spacing: 0.18em;
+}
+
+.showcase-card-info h3 {
+  margin: 0;
+
+  font-size: 18px;
+
+  font-weight: 500;
+
+  letter-spacing: -0.02em;
+}
+
+
+/* =========================================================
+   REVIEWS
+========================================================= */
+
+.showcase-reviews {
+  width: 90%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 80px 0 150px;
+
+  border-top: 1px solid var(--showcase-border);
+}
+
+.showcase-reviews-heading {
+  display: grid;
+
+  grid-template-columns: 1fr 1.5fr 1fr;
+
+  gap: 50px;
+
+  align-items: end;
+
+  margin-bottom: 75px;
+}
+
+.showcase-reviews-heading h2 {
+  margin: 0;
+
+  font-size: clamp(55px, 7vw, 110px);
+
+  line-height: 0.82;
+
+  letter-spacing: -0.065em;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.showcase-reviews-heading h2 span {
+  color: transparent;
+
+  -webkit-text-stroke: 1px var(--showcase-fg);
+}
+
+.showcase-reviews-heading > p {
+  max-width: 300px;
+
+  margin: 0;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+
+  color: var(--showcase-muted);
+}
+
+
+/* =========================================================
+   REVIEW GRID
+========================================================= */
+
+.showcase-review-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 18px;
+}
+
+.showcase-review {
+  position: relative;
+
+  min-height: 330px;
+
+  padding: 28px;
 
   display: flex;
 
-  align-items: center;
+  flex-direction: column;
 
-  justify-content: center;
+  justify-content: space-between;
 
-  font-size: 1rem;
+  background:
+    linear-gradient(
+      145deg,
+      #181818,
+      #101010
+    );
+
+  border: 1px solid var(--showcase-border);
+
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
 }
 
-/* =========================================================
-   TESTIMONIAL CARD
-========================================================= */
-
-.testimonial-card {
-  padding: 22px;
-
-  background: #232323;
+.showcase-review:nth-child(2) {
+  transform: translateY(35px);
 }
 
-.testimonial-text {
-  font-size: 0.85rem;
-
-  line-height: 1.5;
-
-  color: #ddd;
-
-  margin-bottom: 18px;
+.showcase-review:nth-child(4) {
+  transform: translateY(35px);
 }
 
-.testimonial-footer {
+.showcase-review:hover {
+  transform: translateY(-8px) !important;
+
+  border-color:
+    rgba(164, 126, 27, 0.55);
+
+  background: #171717;
+}
+
+.showcase-review-top {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+}
+
+.showcase-quote {
+  font-family: Georgia, serif;
+
+  font-size: 65px;
+
+  line-height: 0.6;
+
+  color: var(--showcase-accent);
+}
+
+.showcase-stars {
+  color: var(--showcase-accent);
+
+  font-size: 10px;
+
+  letter-spacing: 3px;
+}
+
+.showcase-review-text {
+  margin: 35px 0;
+
+  color: rgba(255, 255, 255, 0.67);
+
+  font-size: 13px;
+
+  line-height: 1.75;
+}
+
+.showcase-review-author {
   display: flex;
 
   align-items: center;
 
   gap: 12px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid var(--showcase-border);
 }
 
-.avatar {
-  width: 34px;
-  height: 34px;
+.showcase-avatar {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
 
   border-radius: 50%;
 
-  background: #A47E1B;
+  background: var(--showcase-accent);
 
-  color: #000;
+  color: #050505;
 
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
+  font-size: 13px;
 
   font-weight: 700;
-
-  flex-shrink: 0;
 }
 
-.author-name {
-  font-size: 0.85rem;
+.showcase-review-author div:last-child {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.showcase-review-author strong {
+  font-size: 12px;
 
   font-weight: 600;
+
+  color: #fff;
 }
 
-.author-role {
-  font-size: 0.75rem;
+.showcase-review-author span {
+  font-size: 9px;
 
-  color: #999;
+  color: var(--showcase-muted);
+
+  letter-spacing: 0.04em;
 }
 
-.stars {
-  color: #A47E1B;
-
-  font-size: 0.75rem;
-
-  margin-top: 2px;
-}
 
 /* =========================================================
-   WORK MARQUEE
+   BRAND MARQUEE (ABNOXIOUS EDITS)
 ========================================================= */
 
-.work-marquee {
-  position: relative;
+.showcase-work-marquee {
+  width: 100%;
 
   overflow: hidden;
 
-  margin-top: 40px;
+  border-top: 1px solid var(--showcase-border);
 
-  z-index: 0;
+  border-bottom: 1px solid var(--showcase-border);
+
+  padding: 24px 0;
 
   pointer-events: none;
 }
 
-.work-track {
+.showcase-work-marquee-track {
   display: flex;
 
   width: max-content;
 
+  align-items: center;
+
   animation:
-    marquee 20s linear infinite;
-
-  will-change: transform;
+    showcaseWorkMove 28s linear infinite;
 }
 
-.work-group {
+.showcase-work-marquee-item {
   display: flex;
 
   align-items: center;
 
-  gap: 24px;
+  gap: 40px;
 
-  padding-right: 24px;
-
-  flex-shrink: 0;
+  padding-right: 40px;
 }
 
-.work-group span {
-  font-size: 6rem;
+.showcase-work-marquee-item span {
+  color: rgba(255, 255, 255, 0.07);
 
-  font-weight: 700;
+  font-size: clamp(36px, 5.5vw, 84px);
 
-  color: #1c1c1c;
+  line-height: 1;
 
-  display: flex;
+  font-weight: 900;
 
-  align-items: center;
-
-  gap: 24px;
+  letter-spacing: -0.05em;
 
   white-space: nowrap;
 }
 
-.work-group b {
-  color: #A47E1B;
+.showcase-work-marquee-item b {
+  color: var(--showcase-accent);
 
-  font-size: 1rem;
+  font-size: 12px;
 }
 
-/* =========================================================
-   SELECTED WORK
-========================================================= */
+@keyframes showcaseWorkMove {
+  from {
+    transform: translateX(0);
+  }
 
-.selected-work {
-  text-align: center;
-
-  margin-top: 60px;
-
-  position: relative;
-
-  z-index: 3;
+  to {
+    transform: translateX(-50%);
+  }
 }
 
-.selected-work p {
-  font-size: 0.75rem;
-
-  letter-spacing: 0.2em;
-
-  color: #A47E1B;
-
-  margin-bottom: 12px;
-}
-
-.selected-work h2 {
-  font-size: 2.5rem;
-
-  font-weight: 600;
-}
-
-/* =========================================================
-   PROCESS SECTION
-========================================================= */
-
-.process-section {
-  position: relative;
-
-  width: 100%;
-
-  height: 420px;
-
-  overflow: hidden;
-
-  background: #0a0a0a;
-
-  color: #ffffff;
-
-  z-index: 6;
-}
-
-/*
-=========================================================
-PROCESS SLIDE WRAPPER
-
-This gives Process its own entrance.
-=========================================================
-*/
-
-.process-slide-wrapper {
-  position: relative;
-  width: 100%;
-  height: auto;
-  min-height: 0;
-  transform-origin: center top;
-  will-change: transform, opacity;
-}
-
-/* =========================================================
-   PROCESS CARD AREA
-========================================================= */
-
-.process-card-area {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-
-  height: 100%;
-
-  z-index: 3;
-
-  pointer-events: none;
-}
-
-/* =========================================================
-   PROCESS CARDS
-========================================================= */
-
-.process-floating-card {
-  position: absolute;
-
-  width: 300px;
-
-  min-height: 185px;
-
-  padding: 25px;
-
-  border-radius: 18px;
-
-  border:
-    1px solid
-    rgba(164, 126, 27, 0.55);
-
-  background: #252525;
-
-  box-shadow:
-    0 25px 70px
-    rgba(0, 0, 0, 0.55);
-
-  pointer-events: auto;
-
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-
-  will-change: transform;
-}
-
-.process-card-one {
-  top: 120px;
-  left: -40px;
-}
-
-.process-card-two {
-  top: 210px;
-  left: 24%;
-}
-
-.process-card-three {
-  top: 100px;
-  right: 24%;
-}
-
-.process-card-four {
-  top: 250px;
-  right: -40px;
-}
-
-/* =========================================================
-   PROCESS CARD HOVER
-========================================================= */
-
-.process-floating-card:hover {
-  border-color:
-    rgba(164, 126, 27, 0.9);
-
-  box-shadow:
-    0 30px 80px
-    rgba(0, 0, 0, 0.65),
-    0 0 35px
-    rgba(164, 126, 27, 0.08);
-}
-
-/* =========================================================
-   PROCESS CARD CONTENT
-========================================================= */
-
-.process-card-number {
-  display: block;
-
-  margin-bottom: 22px;
-
-  font-size: 10px;
-
-  letter-spacing: 0.25em;
-
-  color: #A47E1B;
-}
-
-.process-floating-card h3 {
-  margin: 0 0 10px;
-
-  font-size: 25px;
-
-  line-height: 1;
-
-  font-weight: 600;
-
-  letter-spacing: -0.04em;
-
-  color: #ffffff;
-}
-
-.process-floating-card p {
-  width: 100%;
-
-  max-width: 245px;
-
-  margin: 0;
-
-  font-size: 11px;
-
-  line-height: 1.65;
-
-  color:
-    rgba(255, 255, 255, 0.48);
-}
-
-.process-card-line {
-  width: 35px;
-
-  height: 1px;
-
-  margin-top: 20px;
-
-  background: #A47E1B;
-
-  opacity: 0.7;
-}
-
-/* =========================================================
-   PROCESS MARQUEE
-========================================================= */
-
-.process-marquee {
-  position: absolute;
-
-  left: 0;
-  right: 0;
-
-  top: 500px;
-
-  width: 100%;
-
-  overflow: hidden;
-
-  z-index: 1;
-
-  pointer-events: none;
-
-  mask-image:
-    linear-gradient(
-      to right,
-      transparent,
-      black 8%,
-      black 92%,
-      transparent
-    );
-
-  -webkit-mask-image:
-    linear-gradient(
-      to right,
-      transparent,
-      black 8%,
-      black 92%,
-      transparent
-    );
-}
-
-.process-track {
-  display: flex;
-
-  width: max-content;
-
-  animation:
-    marquee 24s linear infinite;
-
-  will-change: transform;
-}
-
-.process-group {
-  display: flex;
-
-  align-items: center;
-
-  gap: 70px;
-
-  padding-right: 70px;
-
-  flex-shrink: 0;
-}
-
-.process-group span {
-  display: inline-block;
-
-  white-space: nowrap;
-
-  font-size: 86px;
-
-  font-weight: 700;
-
-  line-height: 1;
-
-  letter-spacing: -0.07em;
-
-  color:
-    rgba(255, 255, 255, 0.15);
-}
-
-.process-group b {
-  display: inline-block;
-
-  font-size: 8px;
-
-  font-weight: 400;
-
-  color: #A47E1B;
-}
-
-/* =========================================================
-   PROCESS LABEL
-========================================================= */
-
-.process-label {
-  position: absolute;
-
-  left: 0;
-  right: 0;
-
-  bottom: 55px;
-
-  z-index: 5;
-
-  text-align: center;
-}
-
-.process-label span {
-  font-size: 10px;
-
-  letter-spacing: 0.35em;
-
-  color:
-    rgba(255, 255, 255, 0.3);
-}
 
 /* =========================================================
    TABLET
@@ -748,161 +680,126 @@ This gives Process its own entrance.
 
 @media (max-width: 1000px) {
 
-  .process-floating-card {
-    width: 250px;
-
-    min-height: 165px;
-
-    padding: 20px;
+  .showcase-selected {
+    padding: 110px 0 30px;
   }
 
-  .process-card-two {
-    left: 20%;
+  .showcase-heading {
+    grid-template-columns: 1fr;
+
+    gap: 25px;
   }
 
-  .process-card-three {
-    right: 20%;
+  .showcase-heading h2 {
+    font-size: clamp(70px, 14vw, 130px);
   }
 
-  .process-group span {
-    font-size: 72px;
-  }
-}
-
-/* =========================================================
-   MOBILE WORK
-========================================================= */
-
-@media (max-width: 900px) {
-
-  .work-section {
-    padding:
-      50px 0 90px;
+  .showcase-heading p {
+    max-width: 500px;
   }
 
-  .work-canvas {
-    min-height: auto;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 24px;
+  .showcase-hscroll-track {
+    gap: 70px;
   }
 
-  .floating-card {
-    position: relative !important;
+  .showcase-reviews-heading {
+    grid-template-columns: 1fr;
 
-    top: auto !important;
+    gap: 25px;
+  }
 
-    left: auto !important;
+  .showcase-reviews-heading h2 {
+    font-size: clamp(60px, 11vw, 100px);
+  }
 
-    right: auto !important;
+  .showcase-review-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    width: 90% !important;
-
-    margin: 0 auto;
-
+  .showcase-review:nth-child(2),
+  .showcase-review:nth-child(4) {
     transform: none;
   }
-
-  .work-group span {
-    font-size: 4rem;
-  }
 }
 
+
 /* =========================================================
-   MOBILE PROCESS
+   MOBILE
 ========================================================= */
 
 @media (max-width: 700px) {
 
-  .process-section {
-    height: 420px;
-  }
-
-  .process-floating-card {
-    width: 205px;
-
-    min-height: 135px;
-
-    padding: 17px;
-
-    border-radius: 14px;
-  }
-
-  .process-card-one {
-    top: 90px;
-    left: -70px;
-  }
-
-  .process-card-two {
-    top: 145px;
-    left: 18%;
-  }
-
-  .process-card-three {
-    top: 85px;
-    right: -70px;
-  }
-
-  .process-card-four {
-    top: 300px;
-    right: 18%;
-  }
-
-  .process-card-number {
-    margin-bottom: 13px;
+  .showcase-section-label {
+    width: 88%;
 
     font-size: 8px;
   }
 
-  .process-floating-card h3 {
-    margin-bottom: 7px;
+  .showcase-client {
+    min-width: 180px;
 
-    font-size: 19px;
+    padding: 24px 30px;
+
+    font-size: 11px;
   }
 
-  .process-floating-card p {
-    max-width: 170px;
+  .showcase-selected {
+    width: 88%;
 
-    font-size: 8px;
-
-    line-height: 1.5;
+    padding: 90px 0 20px;
   }
 
-  .process-card-line {
-    width: 25px;
-
-    margin-top: 13px;
+  .showcase-heading h2 {
+    font-size: clamp(58px, 18vw, 100px);
   }
 
-  .process-marquee {
-    top: 400px;
+  .showcase-heading p {
+    font-size: 12px;
   }
 
-  .process-track {
-    animation-duration: 18s;
+  .showcase-hscroll-track {
+    gap: 50px;
   }
 
-  .process-group {
-    gap: 35px;
-
-    padding-right: 35px;
+  .showcase-card-media {
+    height: min(60vh, 460px);
   }
 
-  .process-group span {
-    font-size: 55px;
+  .showcase-card-info h3 {
+    font-size: 16px;
   }
 
-  .process-group b {
-    font-size: 5px;
+  .showcase-reviews {
+    width: 88%;
+
+    padding: 70px 0 100px;
   }
 
-  .process-label {
-    bottom: 35px;
+  .showcase-reviews-heading {
+    margin-bottom: 50px;
+  }
+
+  .showcase-reviews-heading h2 {
+    font-size: clamp(50px, 15vw, 90px);
+  }
+
+  .showcase-review-grid {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+  .showcase-review {
+    min-height: 280px;
+
+    padding: 24px;
+  }
+
+  .showcase-work-marquee {
+    padding: 18px 0;
   }
 }
+
 
 /* =========================================================
    REDUCED MOTION
@@ -910,14 +807,8 @@ This gives Process its own entrance.
 
 @media (prefers-reduced-motion: reduce) {
 
-  .clients-track,
-  .work-track,
-  .process-track {
+  .showcase-client-track,
+  .showcase-work-marquee-track {
     animation-play-state: paused;
-  }
-
-  .floating-card,
-  .process-floating-card {
-    will-change: auto;
   }
 }

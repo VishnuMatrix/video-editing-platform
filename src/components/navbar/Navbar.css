@@ -7,47 +7,73 @@
   top: 0;
   left: 0;
   z-index: 1000;
+
   width: 100%;
   height: 76px;
+
   padding: 0 5%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  box-sizing: border-box;
+
   background: rgba(10, 10, 13, 0.72);
+
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
 
+
+/* =========================================
+   LEFT
+========================================= */
+
 .navbar-left {
   display: flex;
   align-items: center;
+
   width: 33.33%;
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
+
+  gap: 28px;
 }
 
 .navbar-links a {
   position: relative;
+
   color: rgba(255, 255, 255, 0.58);
+
   text-decoration: none;
+
   font-size: 13px;
-  transition: color 0.3s ease;
+  letter-spacing: 0.02em;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .navbar-links a::after {
   content: "";
+
   position: absolute;
+
   left: 0;
   bottom: -8px;
+
   width: 0;
   height: 1px;
+
   background: var(--primary);
+
   transition: width 0.3s ease;
 }
 
@@ -59,96 +85,172 @@
   width: 100%;
 }
 
+
+/* =========================================
+   CENTER LOGO
+========================================= */
+
 .navbar-logo {
   position: absolute;
+
   left: 50%;
   top: 50%;
+
   transform: translate(-50%, -50%);
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   text-decoration: none;
+
   color: #ffffff;
+
+  transition: opacity 0.3s ease;
+}
+
+.navbar-logo:hover {
+  opacity: 0.8;
 }
 
 .logo-mark {
   font-size: 23px;
+
   font-weight: 800;
+
   line-height: 0.8;
+
   letter-spacing: -0.08em;
+
   color: var(--primary-strong);
 }
 
 .logo-text {
   margin-top: 7px;
-  font-size: 7px;
-  letter-spacing: 0.35em;
+
+  font-size: 6px;
+
+  letter-spacing: 0.27em;
+
   color: rgba(255, 255, 255, 0.55);
+
+  white-space: nowrap;
 }
+
+
+/* =========================================
+   RIGHT
+========================================= */
 
 .navbar-right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
   gap: 24px;
+
   width: 33.33%;
 }
 
 .navbar-status {
   display: flex;
   align-items: center;
+
   gap: 8px;
+
   font-size: 9px;
+
   letter-spacing: 0.2em;
+
   color: rgba(255, 255, 255, 0.35);
 }
 
 .status-dot {
   width: 5px;
   height: 5px;
+
   border-radius: 50%;
+
   background: var(--primary);
-  box-shadow: 0 0 10px rgba(164, 126, 27, 0.8);
+
+  box-shadow:
+    0 0 10px rgba(164, 126, 27, 0.8);
 }
+
+
+/* =========================================
+   BOOK NOW
+========================================= */
 
 .navbar-button {
   display: flex;
   align-items: center;
   justify-content: center;
+
   min-width: 120px;
   height: 38px;
+
   padding: 0 20px;
+
+  box-sizing: border-box;
+
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 2px;
+
   color: #ffffff;
+
   text-decoration: none;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+
+  font-size: 10px;
+
+  letter-spacing: 0.16em;
+
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .navbar-button:hover {
   border-color: var(--primary);
-  background: var(--primary-soft);
-  color: var(--primary-strong);
+
+  background: var(--primary);
+
+  color: #050505;
+
+  transform: translateY(-1px);
 }
+
+
+/* =========================================
+   MOBILE BUTTON
+========================================= */
 
 .menu-button {
   display: none;
+
   width: 40px;
   height: 40px;
+
   padding: 0;
+
   border: 1px solid rgba(255, 255, 255, 0.15);
+
   background: transparent;
+
   cursor: pointer;
 }
 
 .menu-button span {
   display: block;
+
   width: 17px;
   height: 1px;
+
   margin: 5px auto;
+
   background: #ffffff;
+
   transition: transform 0.3s ease;
 }
 
@@ -160,17 +262,34 @@
   transform: translateY(-3px) rotate(-45deg);
 }
 
+
+/* =========================================
+   MOBILE LOGO
+========================================= */
+
 .navbar-logo-mobile {
   display: none;
 }
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
 
 .mobile-menu {
   display: none;
 }
 
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
 @media (max-width: 800px) {
+
   .navbar {
     height: 68px;
+
     padding: 0 22px;
   }
 
@@ -184,22 +303,32 @@
 
   .navbar-logo {
     position: relative;
+
     left: auto;
     top: auto;
+
     transform: none;
+
     margin: 0 auto;
   }
 
   .navbar-logo-mobile {
     display: block;
-    color: white;
-    font-size: 20px;
+
+    color: #ffffff;
+
+    font-size: 18px;
+
     font-weight: 800;
+
+    letter-spacing: -0.05em;
+
     text-decoration: none;
   }
 
   .navbar-right {
     width: auto;
+
     gap: 10px;
   }
 
@@ -217,32 +346,54 @@
 
   .mobile-menu {
     position: absolute;
+
     top: 68px;
     left: 0;
+
     width: 100%;
+
     padding: 30px 25px;
+
+    box-sizing: border-box;
+
     display: flex;
     flex-direction: column;
+
     gap: 24px;
-    background: rgba(10, 10, 13, 0.96);
+
+    background: rgba(10, 10, 13, 0.97);
+
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
     backdrop-filter: blur(20px);
+
     transform: translateY(-20px);
+
     opacity: 0;
+
     pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
   }
 
   .mobile-menu.open {
     transform: translateY(0);
+
     opacity: 1;
+
     pointer-events: auto;
   }
 
   .mobile-menu a {
     color: rgba(255, 255, 255, 0.7);
+
     text-decoration: none;
+
     font-size: 18px;
+
+    transition: color 0.2s ease;
   }
 
   .mobile-menu a:hover {

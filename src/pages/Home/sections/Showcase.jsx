@@ -4,617 +4,493 @@ import {
   useTransform,
 } from "framer-motion";
 
-import { useRef } from "react";
-import VideoCarousel from "../../../components/videoCarousel/VideoCarousel";
+import { useRef, useState, useEffect } from "react";
+
 import FrameViewer from "../../../components/FrameViewer/FrameViewer.jsx";
+import VideoCarousel from "../../../components/videoCarousel/VideoCarousel";
 import Process from "../../../components/Process/Process";
+
+import img1 from "../../../assets/images/img1.png";
+import img2 from "../../../assets/images/img2.png";
+
 import "./Showcase.css";
 
-
 /* =========================================================
-   SHARED: FLOATING CARD WRAPPER
-========================================================= */
-
-function FloatingWrapper({
-  children,
-  className,
-  scrollX,
-  scrollY,
-  baseRotate = 0,
-  z = 1,
-  index = 0,
-}) {
-  const floatDuration = 5 + (index % 4);
-  const floatDelay = index * 0.3;
-  const floatRange =
-    8 + (index % 3) * 4;
-
-  const wiggle = 2;
-
-  return (
-    <motion.div
-      className={className}
-      style={{
-        x: scrollX,
-        y: scrollY,
-        rotate: baseRotate,
-        zIndex: z,
-      }}
-    >
-      <motion.div
-        animate={{
-          y: [
-            0,
-            -floatRange,
-            0,
-            floatRange,
-            0,
-          ],
-
-          rotate: [
-            0,
-            wiggle,
-            0,
-            -wiggle,
-            0,
-          ],
-        }}
-        transition={{
-          duration: floatDuration,
-          delay: floatDelay,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        {children}
-      </motion.div>
-    </motion.div>
-  );
-}
-
-
-/* =========================================================
-   SHARED: MARQUEE
-========================================================= */
-
-function Marquee({
-  trackClassName,
-  groupClassName,
-  items,
-  renderItem,
-}) {
-  return (
-    <div className={trackClassName}>
-
-      {[0, 1].map((copy) => (
-        <div
-          className={groupClassName}
-          key={copy}
-        >
-          {items.map((item, index) =>
-            renderItem(
-              item,
-              index,
-              copy
-            )
-          )}
-        </div>
-      ))}
-
-    </div>
-  );
-}
-
-
-/* =========================================================
-   SHARED: CARD SCROLL TRANSFORMS
-========================================================= */
-
-function useCardTransforms(
-  scrollYProgress,
-  yRanges,
-  xRanges
-) {
-  const y = yRanges.map((range) =>
-    useTransform(
-      scrollYProgress,
-      [0, 1],
-      range
-    )
-  );
-
-  const x = xRanges.map((range) =>
-    useTransform(
-      scrollYProgress,
-      [0, 1],
-      range
-    )
-  );
-
-  return {
-    y,
-    x,
-  };
-}
-
-
-/* =========================================================
-   WORK DATA
+   CLIENTS
 ========================================================= */
 
 const clients = [
-  {
-    name: "Cisco",
-    logo: "/images/logos/cisco.svg",
-  },
-
-  {
-    name: "Byter",
-    logo: "/images/logos/byter.svg",
-  },
-
-  {
-    name: "Microsoft",
-    logo: "/images/logos/microsoft.svg",
-  },
-
-  {
-    name: "CMA CGM",
-    logo: "/images/logos/cmacgm.svg",
-  },
-
-  {
-    name: "SOBHA",
-    logo: "/images/logos/sobha.svg",
-  },
-
-  {
-    name: "Razer",
-    logo: "/images/logos/razer.svg",
-  },
+  "BYTER",
+  "MICROSOFT",
+  "CMA CGM",
+  "SOBHA",
+  "RAZER",
+  "CISCO",
 ];
 
+/* =========================================================
+   PROJECTS (VIDEO)
+   Put your videos in /public/videos and change names below
+========================================================= */
 
 const projects = [
   {
-    type: "video",
-
-    image: "/images/work-1.jpg",
-
-    className: "card-one",
-
-    baseRotate: -8,
-
-    z: 1,
+    video: "/videos/video1.mp4",
+    poster: img1,
+    number: "01",
+    category: "VIDEO EDITING",
+    title: "Creative Storytelling",
   },
-
   {
-    type: "testimonial",
-
-    text:
-      "Oneforeditis is my go-to video editing agency. They are precise, patient and insightful. Perfect partners to bring my idea to life. I have been working with them for 1 year.",
-
-    author: "Giacomovose",
-
-    role: "Founder of Wishen, Italy",
-
-    className: "card-two",
-
-    baseRotate: 4,
-
-    z: 2,
+    video: "/videos/video2.mp4",
+    poster: img2,
+    number: "02",
+    category: "MOTION DESIGN",
+    title: "Visual Identity",
   },
-
   {
-    type: "video",
-
-    image: "/images/work-2.jpg",
-
-    className: "card-three",
-
-    baseRotate: -6,
-
-    z: 1,
+    video: "/videos/video3.mp4",
+    poster: img1,
+    number: "03",
+    category: "SHORT FORM",
+    title: "Social Content",
   },
-
   {
-    type: "testimonial",
-
-    text:
-      "Excellent communication from start to finish, very professional and skilled editing team. Thank you Aasil and Team. I will be back with more business for sure.",
-
-    author: "Ismail",
-
-    role: "Founder of Tech Ops, USA",
-
-    className: "card-four",
-
-    baseRotate: 5,
-
-    z: 2,
+    video: "/videos/video4.mp4",
+    poster: img2,
+    number: "04",
+    category: "CINEMATIC EDIT",
+    title: "Brand Film",
   },
-
   {
-    type: "video",
-
-    image: "/images/work-3.jpg",
-
-    className: "card-five",
-
-    baseRotate: 3,
-
-    z: 1,
-  },
-
-  {
-    type: "testimonial",
-
-    text:
-      "They went above and beyond our expectations. Aasil took the direction we gave him and ran with it. Editing is high quality, engaging, and super professional. We will use their services again and cannot recommend them enough.",
-
-    author: "Team, Creative Studio LA",
-
-    role: "",
-
-    className: "card-six",
-
-    baseRotate: 6,
-
-    z: 2,
-  },
-
-  {
-    type: "video",
-
-    image: "/images/work-4.jpg",
-
-    className: "card-seven",
-
-    baseRotate: -4,
-
-    z: 1,
-  },
-
-  {
-    type: "testimonial",
-
-    text:
-      "All I can say is Oneforedits did a fantastic job. They took our vision and delivered. Very responsive and got the edit I wanted on the first take. Highly recommend!",
-
-    author: "founder of bajaboardroom.com",
-
-    role: "",
-
-    className: "card-eight",
-
-    baseRotate: -5,
-
-    z: 2,
+    video: "/videos/video5.mp4",
+    poster: img1,
+    number: "05",
+    category: "REELS",
+    title: "Product Launch",
   },
 ];
 
+/* max tilt (degrees) at the screen edges */
+const MAX_TILT = 14;
 
 /* =========================================================
-   PROJECT CARD
+   REVIEWS
 ========================================================= */
 
-function ProjectCard({ project }) {
+const reviews = [
+  {
+    text:
+      "Oneforedits is my go-to video editing agency. They are precise, patient and insightful. Perfect partners to bring my idea to life. I have been working with them for 1 year.",
+    author: "Giacomovose",
+    role: "Founder of Wishen, Italy",
+  },
+  {
+    text:
+      "Excellent communication from start to finish, very professional and skilled editing team. Thank you Aasil and Team. I will be back with more business for sure.",
+    author: "Ismail",
+    role: "Founder of Tech Ops, USA",
+  },
+  {
+    text:
+      "They went above and beyond our expectations. Aasil took the direction we gave him and ran with it. Editing is high quality, engaging, and super professional.",
+    author: "Team, Creative Studio LA",
+    role: "Creative Studio",
+  },
+  {
+    text:
+      "All I can say is Oneforedits did a fantastic job. They took our vision and delivered. Very responsive and got the edit I wanted on the first take. Highly recommend!",
+    author: "Founder",
+    role: "bajaboardroom.com",
+  },
+];
 
-  if (project.type === "video") {
+/* =========================================================
+   CLIENT MARQUEE
+========================================================= */
 
-    return (
-      <div className="work-card video-card">
-
-        <img
-          src={project.image}
-          alt="Video project"
-        />
-
-        <div className="project-play">
-          <span>▶</span>
-        </div>
-
-      </div>
-    );
-  }
-
-
+function ClientMarquee() {
   return (
-    <div className="work-card testimonial-card">
+    <div className="showcase-client-marquee">
+      <div className="showcase-client-track">
+        {[...clients, ...clients].map((client, index) => (
+          <div
+            className="showcase-client"
+            key={`${client}-${index}`}
+          >
+            <span className="showcase-client-symbol">
+              ◆
+            </span>
 
-      <p className="testimonial-text">
-        “{project.text}”
-      </p>
-
-      <div className="testimonial-footer">
-
-        <div className="avatar">
-          {project.author.charAt(0)}
-        </div>
-
-        <div className="testimonial-info">
-
-          <p className="author-name">
-            {project.author}
-          </p>
-
-          {project.role && (
-            <p className="author-role">
-              {project.role}
-            </p>
-          )}
-
-          <div className="stars">
-            ★★★★★
+            <span>{client}</span>
           </div>
-
-        </div>
-
+        ))}
       </div>
-
     </div>
   );
 }
 
+/* =========================================================
+   VIDEO PROJECT CARD
+   Tilt depends on where the card is on screen:
+   left side = tilt left, centre = straight, right = tilt right
+========================================================= */
+
+function ProjectCard({ project, x }) {
+  const cardRef = useRef(null);
+  const videoRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+
+  const rotate = useTransform(x, (latest) => {
+    const el = cardRef.current;
+    if (!el) return 0;
+
+    const center = latest + el.offsetLeft + el.offsetWidth / 2;
+    const half = window.innerWidth / 2;
+    const t = Math.max(-1, Math.min(1, (center - half) / half));
+
+    return t * MAX_TILT;
+  });
+
+  const play = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    const p = v.play();
+    if (p && p.catch) p.catch(() => {});
+    setPlaying(true);
+  };
+
+  const pause = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.pause();
+    setPlaying(false);
+  };
+
+  return (
+    <motion.article
+      ref={cardRef}
+      className="showcase-card"
+      style={{ rotate }}
+      whileHover={{ y: -10, transition: { duration: 0.35 } }}
+      onMouseEnter={play}
+      onMouseLeave={pause}
+      onClick={() => (playing ? pause() : play())}
+    >
+      <div className="showcase-card-media">
+        <video
+          ref={videoRef}
+          src={project.video}
+          poster={project.poster}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        />
+
+        <span
+          className={`showcase-card-play ${
+            playing ? "is-hidden" : ""
+          }`}
+        >
+          <svg viewBox="0 0 24 24" width="26" height="26">
+            <path d="M8 5v14l11-7z" fill="#fff" />
+          </svg>
+        </span>
+      </div>
+
+      <div className="showcase-card-info">
+        <div>
+          <span className="showcase-project-number">
+            {project.number}
+          </span>
+
+          <span className="showcase-project-category">
+            {project.category}
+          </span>
+        </div>
+
+        <h3>{project.title}</h3>
+      </div>
+    </motion.article>
+  );
+}
+
+/* =========================================================
+   HORIZONTAL SCROLL GALLERY
+   - stage is pinned (sticky)
+   - starts empty, cards come in from the right
+   - scrolling moves ONLY the cards
+   - after the last card leaves, the page continues
+========================================================= */
+
+function ProjectGallery() {
+  const sectionRef = useRef(null);
+  const trackRef = useRef(null);
+
+  const [vw, setVw] = useState(1200);
+  const [trackW, setTrackW] = useState(0);
+
+  useEffect(() => {
+    const measure = () => {
+      setVw(window.innerWidth);
+
+      if (trackRef.current) {
+        setTrackW(trackRef.current.scrollWidth);
+      }
+    };
+
+    measure();
+
+    window.addEventListener("resize", measure);
+    window.addEventListener("load", measure);
+
+    return () => {
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("load", measure);
+    };
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  /* start: track fully off the right edge
+     end:   track fully off the left edge */
+  const x = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [vw, -trackW]
+  );
+
+  const travel = trackW + vw;
+
+  return (
+    <section
+      ref={sectionRef}
+      className="showcase-hscroll"
+      style={{
+        height: travel
+          ? `calc(${travel}px + 100vh)`
+          : "400vh",
+      }}
+    >
+      <div className="showcase-hscroll-sticky">
+        <motion.div
+          ref={trackRef}
+          className="showcase-hscroll-track"
+          style={{ x }}
+        >
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.number}
+              project={project}
+              x={x}
+            />
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   REVIEW CARD
+========================================================= */
+
+function ReviewCard({ review, index }) {
+  return (
+    <motion.article
+      className="showcase-review"
+      initial={{
+        opacity: 0,
+        y: 60,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+        amount: 0.2,
+      }}
+      transition={{
+        duration: 0.7,
+        delay: index * 0.08,
+      }}
+    >
+      <div className="showcase-review-top">
+        <span className="showcase-quote">
+          “
+        </span>
+
+        <div className="showcase-stars">
+          ★★★★★
+        </div>
+      </div>
+
+      <p className="showcase-review-text">
+        {review.text}
+      </p>
+
+      <div className="showcase-review-author">
+        <div className="showcase-avatar">
+          {review.author.charAt(0)}
+        </div>
+
+        <div>
+          <strong>{review.author}</strong>
+
+          <span>{review.role}</span>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
 
 /* =========================================================
    WORK SECTION
 ========================================================= */
 
-export function Work() {
-
+function Work() {
   const sectionRef = useRef(null);
 
-
-  const {
-    scrollYProgress,
-  } = useScroll({
+  const { scrollYProgress } = useScroll({
     target: sectionRef,
-
-    offset: [
-      "start end",
-      "end start",
-    ],
+    offset: ["start end", "end start"],
   });
 
-
-  /* =====================================================
-     FLOATING WORK CARDS
-  ===================================================== */
-
-  const {
-    y: cardY,
-    x: cardX,
-  } = useCardTransforms(
-
+  const headingY = useTransform(
     scrollYProgress,
-
-    [
-      [60, -70],
-      [-30, 80],
-      [80, -80],
-      [-60, 90],
-      [70, -60],
-      [-50, 70],
-      [60, -60],
-      [-70, 50],
-    ],
-
-    [
-      [-15, 20],
-      [20, -20],
-      [-20, 25],
-      [15, -25],
-      [-20, 15],
-      [20, -15],
-      [-15, 15],
-      [15, -15],
-    ]
-
+    [0, 0.05],
+    [80, 0]
   );
 
-
-  /* =====================================================
-     WORK SECTION SLIDE ANIMATION
-  ===================================================== */
-
-  const workY = useTransform(
+  const headingOpacity = useTransform(
     scrollYProgress,
-
-    [0, 0.35],
-
-    [100, 0]
+    [0, 0.03, 1],
+    [0, 1, 1]
   );
-
-
-  const workScale = useTransform(
-    scrollYProgress,
-
-    [0, 0.35],
-
-    [0.94, 1]
-  );
-
-
-  const workOpacity = useTransform(
-    scrollYProgress,
-
-    [0, 0.25, 0.4],
-
-    [0, 0.7, 1]
-  );
-
 
   return (
     <section
       ref={sectionRef}
       id="work"
-      className="work-section"
+      className="showcase-work"
     >
+      {/* CLIENTS */}
 
-      <motion.div
-        className="work-slide-wrapper"
+      <section className="showcase-clients">
+        <div className="showcase-section-label">
+          <span>01</span>
+          <span>TRUSTED BY BRANDS & CREATORS</span>
+        </div>
 
-        style={{
-          y: workY,
+        <ClientMarquee />
+      </section>
 
-          scale: workScale,
+      {/* SELECTED WORK HEADING */}
 
-          opacity: workOpacity,
-        }}
-      >
+      <section className="showcase-selected">
+        <motion.div
+          className="showcase-heading"
+          style={{
+            y: headingY,
+            opacity: headingOpacity,
+          }}
+        >
+          <div className="showcase-heading-meta">
+            <span>02 / SELECTED WORK</span>
 
+            <span>
+              EDIT / MOTION / STORY
+            </span>
+          </div>
 
-        {/* =============================================
-            CLIENTS
-        ============================================= */}
+          <h2>
+            WORK THAT
+            <br />
+            <span>MOVES.</span>
+          </h2>
 
-        <div className="clients-section">
-
-          <p className="clients-label">
-            TRUSTED BY BRANDS &amp; CREATORS
+          <p>
+            A selection of edits, visual stories and
+            motion-driven work created to make brands
+            impossible to ignore.
           </p>
+        </motion.div>
+      </section>
 
+      {/* HORIZONTAL SCROLL VIDEO GALLERY */}
 
-          <div className="clients-marquee">
+      <ProjectGallery />
 
-            <Marquee
-              trackClassName="clients-track"
+      {/* REVIEWS */}
 
-              groupClassName="clients-group"
-
-              items={clients}
-
-              renderItem={(
-                client,
-                index,
-                copy
-              ) => (
-
-                <div
-                  className="client-item"
-
-                  key={`client-${copy}-${index}`}
-                >
-
-                  <img
-                    src={client.logo}
-
-                    alt={client.name}
-
-                    className="client-logo"
-                  />
-
-                </div>
-
-              )}
-            />
-
+      <section className="showcase-reviews">
+        <div className="showcase-reviews-heading">
+          <div className="showcase-section-label">
+            <span>03</span>
+            <span>CLIENT WORDS</span>
           </div>
 
+          <h2>
+            GOOD WORK
+            <br />
+            <span>GETS REMEMBERED.</span>
+          </h2>
+
+          <p>
+            Don't just take our word for it.
+            Here's what some of the people we've
+            worked with have to say.
+          </p>
         </div>
 
-
-        {/* =============================================
-            WORK SHOWCASE
-        ============================================= */}
-
-        <div className="work-showcase">
-
-          <div className="work-canvas">
-
-            {projects.map(
-              (project, index) => (
-
-                <FloatingWrapper
-                  key={index}
-
-                  className={`floating-card ${project.className}`}
-
-                  scrollX={cardX[index]}
-
-                  scrollY={cardY[index]}
-
-                  baseRotate={
-                    project.baseRotate
-                  }
-
-                  z={project.z}
-
-                  index={index}
-                >
-
-                  <ProjectCard
-                    project={project}
-                  />
-
-                </FloatingWrapper>
-
-              )
-            )}
-
-          </div>
-
-
-          {/* =========================================
-              WORK MARQUEE
-          ========================================= */}
-
-          <div className="work-marquee">
-
-            <Marquee
-              trackClassName="work-track"
-
-              groupClassName="work-group"
-
-              items={Array.from({
-                length: 5,
-              })}
-
-              renderItem={(
-                _,
-                index,
-                copy
-              ) => (
-
-                <span
-                  key={`${copy}-${index}`}
-                >
-                  Work
-                  <b>•</b>
-                </span>
-
-              )}
+        <div className="showcase-review-grid">
+          {reviews.map((review, index) => (
+            <ReviewCard
+              key={index}
+              review={review}
+              index={index}
             />
-
-          </div>
-
+          ))}
         </div>
+      </section>
 
-      </motion.div>
+      {/* BRAND MARQUEE */}
 
+      <div className="showcase-work-marquee">
+        <div className="showcase-work-marquee-track">
+          {[...Array(6)].map((_, i) => (
+            <span key={i} className="showcase-work-marquee-item">
+              <span>ABNOXIOUS EDITS</span>
+              <b>•</b>
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
-
 
 /* =========================================================
    MAIN SHOWCASE
 ========================================================= */
 
 function Showcase() {
-
   return (
     <div className="showcase-wrapper">
-
       <Work />
-      <FrameViewer />
-      <VideoCarousel />
-      <Process />
 
+      <FrameViewer />
+
+      <VideoCarousel />
+
+      <Process />
     </div>
   );
 }
-
 
 export default Showcase;
