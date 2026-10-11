@@ -15,6 +15,10 @@ export default function DashboardLayout({ role, title, description, navItems, ch
       return { ...item, path: role === 'admin' ? '/dashboard/admin/reviews' : '/dashboard/client/projects' };
     }
 
+    if (item.key === 'homepage') {
+      return { ...item, path: '/dashboard/admin/homepage-videos' };
+    }
+
     return item;
   });
 

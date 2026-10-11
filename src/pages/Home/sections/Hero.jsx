@@ -8,9 +8,9 @@ import { useRef } from "react";
 
 import "./Hero.css";
 
-import heroVideo from "../../../animations/video1.mp4";
+import { DEFAULT_HERO_VIDEO } from "../../../data/homepageVideos";
 
-function Hero() {
+function Hero({ videoSrc = DEFAULT_HERO_VIDEO }) {
   const heroRef = useRef(null);
 
   /* =====================================================
@@ -229,7 +229,7 @@ function Hero() {
       >
         <video
           className="hero-video"
-          src={heroVideo}
+          src={videoSrc}
           autoPlay
           muted
           loop

@@ -1,34 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./VideoCarousel.css";
-
-// Your existing video
-import video1 from "../../animations/video1.mp4";
-
-/*
-=========================================================
-IMPORTANT
-=========================================================
-A circular 3D carousel looks best with 8+ items — with too
-few, the gaps between cards are so wide that whichever two
-cards are nearest the camera fill the whole screen.
-
-You currently have only ONE real video (video1.mp4), so the
-same file is reused across 9 cards below. Replace `src` with
-your real videos as you get them.
-=========================================================
-*/
-
-const DEFAULT_ITEMS = [
-  { id: 1, index: "01", title: "ALLY", subtitle: "NORTHLINE FILM", tag: "NARRATIVE", src: video1 },
-  { id: 2, index: "02", title: "SIGNAL / NOISE", subtitle: "NORTHLINE FILM", tag: "COMMERCIAL", src: video1 },
-  { id: 3, index: "03", title: "VELOUR", subtitle: "NORTHLINE FILM", tag: "VFX", src: video1 },
-  { id: 4, index: "04", title: "NOCTURNE", subtitle: "NORTHLINE FILM", tag: "NARRATIVE", src: video1 },
-  { id: 5, index: "05", title: "OVERHEAD", subtitle: "NORTHLINE FILM", tag: "AUTOMOTIVE", src: video1 },
-  { id: 6, index: "06", title: "FRAME", subtitle: "NORTHLINE FILM", tag: "EDITORIAL", src: video1 },
-  { id: 7, index: "07", title: "BLOOM", subtitle: "NORTHLINE FILM", tag: "TITLE SEQUENCE", src: video1 },
-  { id: 8, index: "08", title: "MERIDIAN", subtitle: "NORTHLINE FILM", tag: "COMMERCIAL", src: video1 },
-  { id: 9, index: "09", title: "GRID CITY", subtitle: "NORTHLINE FILM", tag: "BRAND FILM", src: video1 },
-];
+import { DEFAULT_ARCHIVE_VIDEOS } from "../../data/homepageVideos";
 
 /*
 =========================================================
@@ -43,7 +15,7 @@ const CARD_WIDTH = 460;
 // not this.
 const GAP_FACTOR = 1.15;
 
-export default function VideoCarousel({ items = DEFAULT_ITEMS, autoRotateSpeed = 0.12 }) {
+export default function VideoCarousel({ items = DEFAULT_ARCHIVE_VIDEOS, autoRotateSpeed = 0.12 }) {
   const [rotation, setRotation] = useState(0);
   const [activeItem, setActiveItem] = useState(null);
   const [isDragging, setIsDragging] = useState(false);

@@ -9,9 +9,7 @@ import { useRef, useState, useEffect } from "react";
 import FrameViewer from "../../../components/FrameViewer/FrameViewer.jsx";
 import VideoCarousel from "../../../components/videoCarousel/VideoCarousel";
 import Process from "../../../components/Process/Process";
-
-import img1 from "../../../assets/images/img1.png";
-import img2 from "../../../assets/images/img2.png";
+import { DEFAULT_ARCHIVE_VIDEOS, DEFAULT_FRAME_IMAGES, DEFAULT_GALLERY_VIDEOS } from "../../../data/homepageVideos";
 
 import "./Showcase.css";
 
@@ -32,44 +30,6 @@ const clients = [
    PROJECTS (VIDEO)
    Put your videos in /public/videos and change names below
 ========================================================= */
-
-const projects = [
-  {
-    video: "/videos/video1.mp4",
-    poster: img1,
-    number: "01",
-    category: "VIDEO EDITING",
-    title: "Creative Storytelling",
-  },
-  {
-    video: "/videos/video2.mp4",
-    poster: img2,
-    number: "02",
-    category: "MOTION DESIGN",
-    title: "Visual Identity",
-  },
-  {
-    video: "/videos/video3.mp4",
-    poster: img1,
-    number: "03",
-    category: "SHORT FORM",
-    title: "Social Content",
-  },
-  {
-    video: "/videos/video4.mp4",
-    poster: img2,
-    number: "04",
-    category: "CINEMATIC EDIT",
-    title: "Brand Film",
-  },
-  {
-    video: "/videos/video5.mp4",
-    poster: img1,
-    number: "05",
-    category: "REELS",
-    title: "Product Launch",
-  },
-];
 
 /* max tilt (degrees) at the screen edges */
 const MAX_TILT = 14;
@@ -224,7 +184,7 @@ function ProjectCard({ project, x }) {
    - after the last card leaves, the page continues
 ========================================================= */
 
-function ProjectGallery() {
+function ProjectGallery({ projects }) {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
 
@@ -282,9 +242,9 @@ function ProjectGallery() {
           className="showcase-hscroll-track"
           style={{ x }}
         >
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <ProjectCard
-              key={project.number}
+              key={project.id || project.number || index}
               project={project}
               x={x}
             />
@@ -353,7 +313,7 @@ function ReviewCard({ review, index }) {
    WORK SECTION
 ========================================================= */
 
-function Work() {
+function Work({ projects }) {
   const sectionRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -424,7 +384,7 @@ function Work() {
 
       {/* HORIZONTAL SCROLL VIDEO GALLERY */}
 
-      <ProjectGallery />
+      <ProjectGallery projects={projects} />
 
       {/* REVIEWS */}
 
@@ -479,14 +439,18 @@ function Work() {
    MAIN SHOWCASE
 ========================================================= */
 
-function Showcase() {
+function Showcase({
+  galleryVideos = DEFAULT_GALLERY_VIDEOS,
+  archiveVideos = DEFAULT_ARCHIVE_VIDEOS,
+  frameImages = DEFAULT_FRAME_IMAGES,
+}) {
   return (
     <div className="showcase-wrapper">
-      <Work />
+      <Work projects={galleryVideos} />
 
-      <FrameViewer />
+      <FrameViewer frameImages={frameImages} />
 
-      <VideoCarousel />
+      <VideoCarousel items={archiveVideos} />
 
       <Process />
     </div>

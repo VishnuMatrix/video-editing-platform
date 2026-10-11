@@ -1,5 +1,16 @@
 # React + Vite
 
+## Homepage media uploads
+
+The admin Homepage Videos editor uploads hero, gallery, archive, poster, and frame-viewer media directly to Cloudinary. Configure these Vite environment variables in `.env`:
+
+```env
+VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
+VITE_CLOUDINARY_UPLOAD_PRESET=your_unsigned_upload_preset
+```
+
+Create an **unsigned** upload preset in the Cloudinary console and restrict its allowed formats, size, and folder as appropriate. The browser upload uses the Cloudinary cloud name and preset only; never put an API secret in a `VITE_` variable. Restart the Vite server after changing `.env`. Uploaded `secure_url` values are saved in the public-readable `homepageContent/home` Firestore document when an admin publishes changes.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

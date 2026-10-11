@@ -11,9 +11,18 @@ const navItems = [
   { label: 'Clients', path: '/dashboard/admin/clients', key: 'clients' },
   { label: 'Projects', path: '/dashboard/admin/projects', key: 'projects' },
   { label: 'Project Reviews', path: '/dashboard/admin/reviews', key: 'reviews' },
-  { label: 'Homepage Content', path: '/dashboard/admin#homepage', key: 'homepage' },
+  { label: 'Homepage Videos', path: '/dashboard/admin/homepage-videos', key: 'homepage' },
   { label: 'Profile', path: '/dashboard/admin/profile', key: 'profile' },
   { label: 'Settings', path: '/dashboard/admin/settings', key: 'settings' },
+];
+
+const DELIVERY_STAGES = [
+  { status: 'submitted', label: 'Submitted' },
+  { status: 'started', label: 'Started' },
+  { status: 'in_progress', label: 'In progress' },
+  { status: 'review', label: 'Studio review' },
+  { status: 'revision_requested', label: 'Revision' },
+  { status: 'completed', label: 'Delivered' },
 ];
 
 const getDate = (value) => value?.toDate?.() ?? (value ? new Date(value) : null);
@@ -27,6 +36,29 @@ const formatDate = (value) => {
   return date && !Number.isNaN(date.getTime())
     ? new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(date)
     : 'Date unavailable';
+};
+
+const formatMilestoneDate = (value) => {
+  const date = getDate(value);
+  return date && !Number.isNaN(date.getTime())
+    ? new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(date)
+    : '';
+};
+
+const normalizeStatus = (status) => String(status || 'submitted').toLowerCase().replace(/[\s-]+/g, '_');
+
+const getStageIndex = (status) => {
+  const normalized = normalizeStatus(status);
+  const index = DELIVERY_STAGES.findIndex((stage) => stage.status === normalized);
+  return index < 0 ? 0 : index;
+};
+
+const getStageDate = (project, status) => {
+  const events = Array.isArray(project.statusHistory) ? project.statusHistory : [];
+  const event = [...events].reverse().find((item) => normalizeStatus(item.status) === status);
+  if (event?.at || event?.createdAt) return formatMilestoneDate(event.at || event.createdAt);
+  if (status === 'submitted') return formatMilestoneDate(project.createdAt);
+  return '';
 };
 
 export default function Reviews() {
@@ -87,9 +119,16 @@ export default function Reviews() {
   const sortedReviews = [...reviews].sort((first, second) => getTime(second.createdAt) - getTime(first.createdAt));
   const unreadCount = reviews.filter((review) => !review.readByAdmin).length;
   const reviewedCount = reviews.length - unreadCount;
-  const visibleReviews = sortedReviews.filter((review) => activeFilter === 'all' || !review.readByAdmin);
-  const projectById = new Map(projects.map((project) => [project.id, project]));
+  const visibleProjects = [...projects]
+    .filter((project) => activeFilter === 'all' || reviews.some((review) => review.projectId === project.id && !review.readByAdmin))
+    .sort((first, second) => getTime(second.updatedAt || second.createdAt) - getTime(first.updatedAt || first.createdAt));
   const clientById = new Map(clients.map((client) => [client.id, client]));
+  const reviewsByProject = sortedReviews.reduce((grouped, review) => {
+    const projectReviews = grouped.get(review.projectId) || [];
+    projectReviews.push(review);
+    grouped.set(review.projectId, projectReviews);
+    return grouped;
+  }, new Map());
 
   const handleMarkReviewed = async (reviewId) => {
     setMarkingId(reviewId);
@@ -111,9 +150,9 @@ export default function Reviews() {
     <DashboardLayout role="admin" title="Project reviews" description="Client feedback, organized for a clear next step." navItems={navItems}>
       <section className="review-inbox-intro">
         <div>
-          <span className="profile-eyebrow">STUDIO INBOX / CLIENT FEEDBACK</span>
-          <h2>Listen closely. Ship better work.</h2>
-          <p>Every client note and revision request, connected to its project.</p>
+          <span className="profile-eyebrow">DELIVERY TRACKER / CLIENT FEEDBACK</span>
+          <h2>Every project. Every milestone.</h2>
+          <p>Follow the work from submission through delivery, with client feedback in context.</p>
         </div>
         <Link className="review-inbox-project-link" to="/dashboard/admin/projects">Project queue <span aria-hidden="true">↗</span></Link>
       </section>
@@ -139,12 +178,12 @@ export default function Reviews() {
       <section className="section-card review-inbox-section">
         <div className="review-inbox-toolbar">
           <div>
-            <span className="profile-eyebrow">THE FEEDBACK LOG</span>
-            <h3>Project conversation</h3>
+            <span className="profile-eyebrow">LIVE PROJECT MILESTONES</span>
+            <h3>Delivery timeline</h3>
           </div>
           <div className="review-filter" role="group" aria-label="Filter feedback">
-            <button className={activeFilter === 'all' ? 'active' : ''} type="button" onClick={() => setActiveFilter('all')}>All <span>{reviews.length}</span></button>
-            <button className={activeFilter === 'new' ? 'active' : ''} type="button" onClick={() => setActiveFilter('new')}>New <span>{unreadCount}</span></button>
+            <button className={activeFilter === 'all' ? 'active' : ''} type="button" onClick={() => setActiveFilter('all')}>All projects <span>{projects.length}</span></button>
+            <button className={activeFilter === 'new' ? 'active' : ''} type="button" onClick={() => setActiveFilter('new')}>New feedback <span>{unreadCount}</span></button>
           </div>
         </div>
 
@@ -153,57 +192,100 @@ export default function Reviews() {
           <div className="empty-state"><div><p className="form-error">{error}</p></div></div>
         ) : isLoading ? (
           <div className="empty-state"><div><p>Loading feedback...</p></div></div>
-        ) : visibleReviews.length ? (
-          <div className="review-timeline">
-            {visibleReviews.map((review) => {
-              const project = projectById.get(review.projectId);
-              const client = clientById.get(review.clientId);
-              const projectTitle = project?.title || review.projectTitle || 'Project feedback';
+        ) : visibleProjects.length ? (
+          <div className="delivery-project-list">
+            {visibleProjects.map((project, projectIndex) => {
+              const projectReviews = reviewsByProject.get(project.id) || [];
+              const client = clientById.get(project.clientId);
               const clientName = client?.name || client?.email || 'Client';
+              const currentStageIndex = getStageIndex(project.status);
+              const hasUnread = projectReviews.some((review) => !review.readByAdmin);
 
               return (
-                <article
-                  className={`review-entry ${review.readByAdmin ? 'is-reviewed' : 'is-unread'}`}
-                  id={`review-${review.id}`}
-                  key={review.id}
-                >
-                  <div className="review-entry-rail">
-                    <span className="review-entry-dot" />
-                    <time>{formatDate(review.createdAt)}</time>
-                  </div>
-                  <div className="review-entry-content">
-                    <div className="review-entry-heading">
+                <article className="delivery-project-card" id={`project-${project.id}`} key={project.id}>
+                  <header className="delivery-project-header">
+                    <div className="delivery-project-heading">
+                      <span className="delivery-project-number">PROJECT {String(projectIndex + 1).padStart(2, '0')}</span>
+                      <h4>{project.title || 'Untitled project'}</h4>
+                      <span className="delivery-project-client">For {clientName}</span>
+                    </div>
+                    <div className="delivery-project-state">
+                      {hasUnread && <span className="delivery-unread-label"><i /> New feedback</span>}
+                      <ProjectStatusBadge status={project.status} />
+                    </div>
+                  </header>
+
+                  <ol className="delivery-stage-track" aria-label={`${project.title || 'Project'} delivery progress`}>
+                    {DELIVERY_STAGES.map((stage, stageIndex) => {
+                      const stageState = stageIndex < currentStageIndex
+                        ? 'complete'
+                        : stageIndex === currentStageIndex
+                          ? 'current'
+                          : 'upcoming';
+                      const stageDate = getStageDate(project, stage.status);
+
+                      return (
+                        <li className={`delivery-stage is-${stageState} stage-${stage.status}`} key={stage.status}>
+                          <span className="delivery-stage-marker" aria-hidden="true">
+                            {stageState === 'complete' ? '✓' : String(stageIndex + 1).padStart(2, '0')}
+                          </span>
+                          <span className="delivery-stage-copy">
+                            <strong>{stage.label}</strong>
+                            <span>{stageDate || (stageState === 'complete' ? 'Complete' : stageState === 'current' ? (stage.status === 'completed' ? 'Delivered' : 'Current stage') : 'Up next')}</span>
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ol>
+
+                  {project.reviewRemarks && (
+                    <div className="delivery-studio-note">
+                      <span className="profile-eyebrow">STUDIO REVIEW</span>
+                      <p>{project.reviewRemarks}</p>
+                    </div>
+                  )}
+
+                  <div className="delivery-feedback-block">
+                    <div className="delivery-feedback-heading">
                       <div>
-                        <div className="review-entry-kicker">
-                          <span>{review.readByAdmin ? 'Reviewed' : 'New feedback'}</span>
-                          <span className="review-entry-divider">/</span>
-                          <span>{clientName}</span>
-                        </div>
-                        <h4>{projectTitle}</h4>
+                        <span className="profile-eyebrow">CLIENT VOICE</span>
+                        <h5>Feedback &amp; remarks <span>{projectReviews.length}</span></h5>
                       </div>
-                      {project?.status && <ProjectStatusBadge status={project.status} />}
+                      <Link
+                        className="review-open-project"
+                        to={`/dashboard/admin/projects?client=${encodeURIComponent(project.clientId || '')}&project=${encodeURIComponent(project.id)}`}
+                      >
+                        Open project controls <span aria-hidden="true">↗</span>
+                      </Link>
                     </div>
-                    <blockquote className="review-quote">
-                      <span className="review-quote-mark" aria-hidden="true">“</span>
-                      <p>{review.feedback || review.comment || review.text || 'Feedback submitted.'}</p>
-                    </blockquote>
-                    <div className="review-entry-actions">
-                      {project && (
-                        <Link
-                          className="review-open-project"
-                          to={`/dashboard/admin/projects?client=${encodeURIComponent(project.clientId || '')}&project=${encodeURIComponent(project.id)}`}
-                        >
-                          Open project controls <span aria-hidden="true">↗</span>
-                        </Link>
-                      )}
-                      {review.readByAdmin ? (
-                        <span className="review-read-state"><span /> Reviewed</span>
-                      ) : (
-                        <button className="review-mark-button" type="button" disabled={markingId === review.id} onClick={() => handleMarkReviewed(review.id)}>
-                          {markingId === review.id ? 'Saving...' : 'Mark reviewed'}
-                        </button>
-                      )}
-                    </div>
+
+                    {projectReviews.length ? (
+                      <div className="delivery-feedback-list">
+                        {projectReviews.map((review) => (
+                          <article className={`delivery-feedback-item ${review.readByAdmin ? 'is-read' : 'is-new'}`} id={`review-${review.id}`} key={review.id}>
+                            <div className="delivery-feedback-meta">
+                              <span className="delivery-feedback-client">{clientName}</span>
+                              <time>{formatDate(review.createdAt)}</time>
+                            </div>
+                            <blockquote className="review-quote">
+                              <span className="review-quote-mark" aria-hidden="true">“</span>
+                              <p>{review.feedback || review.comment || review.text || 'Feedback submitted.'}</p>
+                            </blockquote>
+                            <div className="review-entry-actions">
+                              {review.readByAdmin ? (
+                                <span className="review-read-state"><span /> Reviewed</span>
+                              ) : (
+                                <button className="review-mark-button" type="button" disabled={markingId === review.id} onClick={() => handleMarkReviewed(review.id)}>
+                                  {markingId === review.id ? 'Saving...' : 'Mark reviewed'}
+                                </button>
+                              )}
+                            </div>
+                          </article>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="delivery-no-feedback">No client feedback on this project yet.</p>
+                    )}
                   </div>
                 </article>
               );
@@ -212,8 +294,8 @@ export default function Reviews() {
         ) : (
           <div className="review-empty-state">
             <span className="review-empty-mark" aria-hidden="true">✓</span>
-            <h4>{activeFilter === 'new' ? 'Nothing new in the inbox.' : 'No client feedback yet.'}</h4>
-            <p>{activeFilter === 'new' ? 'New feedback will appear here as soon as a client sends it.' : 'Client notes and revision requests will collect here.'}</p>
+            <h4>{activeFilter === 'new' ? 'Nothing new in the inbox.' : 'No projects to track yet.'}</h4>
+            <p>{activeFilter === 'new' ? 'Projects with new client feedback will appear here.' : 'Project milestones and client feedback will appear as work is submitted.'}</p>
           </div>
         )}
       </section>
