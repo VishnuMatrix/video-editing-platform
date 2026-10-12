@@ -12,6 +12,7 @@ import AdminDashboard from '../pages/Dashboard/AdminDashboard';
 import Clients from '../pages/Dashboard/admin/Clients';
 import Projects from '../pages/Dashboard/admin/Projects';
 import Reviews from '../pages/Dashboard/admin/Reviews';
+import HomepageVideos from '../pages/Dashboard/admin/HomepageVideos';
 import ClientProjects from '../pages/Dashboard/client/Projects';
 import SubmitProject from '../pages/Dashboard/client/SubmitProject';
 import Profile from '../pages/Dashboard/Profile';
@@ -73,6 +74,7 @@ function AppRoutes() {
       <Route path="/dashboard/admin/clients" element={<ProtectedRoute><RoleRoute allowedRoles={['admin']} fallbackPath="/dashboard/client"><Clients /></RoleRoute></ProtectedRoute>} />
       <Route path="/dashboard/admin/projects" element={<ProtectedRoute><RoleRoute allowedRoles={['admin']} fallbackPath="/dashboard/client"><Projects /></RoleRoute></ProtectedRoute>} />
       <Route path="/dashboard/admin/reviews" element={<ProtectedRoute><RoleRoute allowedRoles={['admin']} fallbackPath="/dashboard/client"><Reviews /></RoleRoute></ProtectedRoute>} />
+      <Route path="/dashboard/admin/homepage-videos" element={<ProtectedRoute><RoleRoute allowedRoles={['admin']} fallbackPath="/dashboard/client"><HomepageVideos /></RoleRoute></ProtectedRoute>} />
       <Route path="/dashboard/admin/profile" element={<ProtectedRoute><RoleRoute allowedRoles={['admin']} fallbackPath="/dashboard/client"><Profile /></RoleRoute></ProtectedRoute>} />
       <Route path="/dashboard/admin/settings" element={<ProtectedRoute><RoleRoute allowedRoles={['admin']} fallbackPath="/dashboard/client"><Settings /></RoleRoute></ProtectedRoute>} />
       <Route path="/dashboard/client/projects" element={<ProtectedRoute><RoleRoute allowedRoles={['client']} fallbackPath="/dashboard/admin"><ClientProjects /></RoleRoute></ProtectedRoute>} />

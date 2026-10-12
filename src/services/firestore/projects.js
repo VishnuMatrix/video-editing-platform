@@ -50,8 +50,10 @@ export async function getProjectById(projectId) {
 }
 
 export async function createProject(project) {
+  const initialStatus = project.status || 'submitted';
   const payload = {
     ...project,
+    statusHistory: [{ status: initialStatus, at: new Date().toISOString() }],
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   };
@@ -62,11 +64,25 @@ export async function createProject(project) {
 
 export async function updateProject(projectId, updates) {
   const ref = doc(db, 'projects', projectId);
+  const snapshot = await getDoc(ref);
+  const currentProject = snapshot.exists() ? snapshot.data() : {};
+  const statusChanged = updates.status && updates.status !== currentProject.status;
+  let statusHistory = currentProject.statusHistory || [];
+
+  if (statusChanged) {
+    const changedAt = new Date().toISOString();
+    if (statusHistory.length === 0 && currentProject.status) {
+      const createdAt = currentProject.createdAt?.toDate?.()?.toISOString() || currentProject.createdAt || changedAt;
+      statusHistory = [{ status: currentProject.status, at: createdAt }];
+    }
+    statusHistory = [...statusHistory, { status: updates.status, at: changedAt }];
+  }
 
   await setDoc(
     ref,
     {
       ...updates,
+      ...(statusChanged ? { statusHistory } : {}),
       updatedAt: serverTimestamp(),
     },
     { merge: true }

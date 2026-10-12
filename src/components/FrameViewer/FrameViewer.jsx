@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import "./FrameViewer.css";
 
 // Your existing images. Adjust these paths to wherever they actually
@@ -6,6 +6,7 @@ import "./FrameViewer.css";
 // src/components/, and the images are in src/assets/, this is right.
 import img1 from "../../assets/images/img1.png";
 import img2 from "../../assets/images/img2.png";
+import { DEFAULT_FRAME_IMAGES } from "../../data/homepageVideos";
 
 
 /*
@@ -84,33 +85,43 @@ const DEFAULT_FRAMES = [
 // How often it auto-advances, in milliseconds. Set to 0 to disable autoplay.
 const AUTOPLAY_INTERVAL = 4500;
 
-export default function FrameViewer({ frames = DEFAULT_FRAMES }) {
+export default function FrameViewer({ frames = DEFAULT_FRAMES, frameImages = DEFAULT_FRAME_IMAGES }) {
+  const displayFrames = (frameImages.length ? frameImages : DEFAULT_FRAME_IMAGES).map((frameImage, index) => {
+    const frame = frames[index % frames.length];
+    return {
+      ...frame,
+      id: frameImage.id || `frame-${index + 1}`,
+      index: String(index + 1).padStart(2, "0"),
+      image: frameImage.image || frame.image,
+    };
+  });
   const [selected, setSelected] = useState(0);
   const [direction, setDirection] = useState("next"); // drives which way the slide animates
   const [isHovering, setIsHovering] = useState(false);
   const intervalRef = useRef(null);
 
-  const total = frames.length;
-  const current = frames[selected];
-  const prevFrame = frames[(selected - 1 + total) % total];
-  const nextFrame = frames[(selected + 1) % total];
+  const total = displayFrames.length;
+  const activeIndex = selected % total;
+  const current = displayFrames[activeIndex];
+  const prevFrame = displayFrames[(activeIndex - 1 + total) % total];
+  const nextFrame = displayFrames[(activeIndex + 1) % total];
 
   const goPrev = useCallback(() => {
     setDirection("prev");
-    setSelected((i) => (i - 1 + total) % total);
+    setSelected((i) => ((i % total) - 1 + total) % total);
   }, [total]);
 
   const goNext = useCallback(() => {
     setDirection("next");
-    setSelected((i) => (i + 1) % total);
+    setSelected((i) => ((i % total) + 1) % total);
   }, [total]);
 
   const goTo = useCallback(
     (targetIndex) => {
-      setDirection(targetIndex > selected ? "next" : "prev");
-      setSelected(targetIndex);
+      setDirection(targetIndex > activeIndex ? "next" : "prev");
+      setSelected(targetIndex % total);
     },
-    [selected]
+    [activeIndex, total]
   );
 
   /* =========================================================
@@ -224,11 +235,11 @@ export default function FrameViewer({ frames = DEFAULT_FRAMES }) {
         </div>
 
         <div className="fv-thumbs">
-          {frames.map((frame, i) => (
+          {displayFrames.map((frame, i) => (
             <button
               key={frame.id}
               type="button"
-              className={`fv-thumb ${i === selected ? "fv-thumb-active" : ""}`}
+              className={`fv-thumb ${i === activeIndex ? "fv-thumb-active" : ""}`}
               onClick={() => goTo(i)}
               aria-label={`Show ${frame.title}`}
             >

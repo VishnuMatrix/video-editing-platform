@@ -8,7 +8,7 @@ const navItems = [
   { label: 'Clients', path: '/dashboard/admin/clients', key: 'clients' },
   { label: 'Projects', path: '/dashboard/admin/projects', key: 'projects' },
   { label: 'Project Reviews', path: '/dashboard/admin/projects', key: 'reviews' },
-  { label: 'Homepage Content', path: '/dashboard/admin#homepage', key: 'homepage' },
+  { label: 'Homepage Videos', path: '/dashboard/admin/homepage-videos', key: 'homepage' },
   { label: 'Profile', path: '/dashboard/admin#profile', key: 'profile' },
   { label: 'Settings', path: '/dashboard/admin#settings', key: 'settings' },
 ];
