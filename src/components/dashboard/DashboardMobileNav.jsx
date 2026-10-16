@@ -30,8 +30,7 @@ export default function DashboardMobileNav({ role, navItems, open, onClose }) {
       <div className="mobile-overlay" onClick={onClose} />
       <aside className={`mobile-drawer ${open ? 'open' : ''}`}>
         <div className="dashboard-brand" style={{ marginBottom: '18px' }}>
-          <span className="dashboard-brand-mark">OF</span>
-          <span className="dashboard-brand-name">Oneforedit</span>
+          <span className="dashboard-brand-name">ABNOXIOUS EDITS</span>
         </div>
 
         <nav className="dashboard-nav-group">

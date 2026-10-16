@@ -75,10 +75,9 @@ export default function Register() {
   return (
     <div className="auth-page">
       <div className="auth-visual">
-        <a href="/" className="auth-brand">
-          <span className="auth-brand-mark">OF</span>
-          <span>Oneforedit</span>
-        </a>
+        <a href="/" className="auth-brand" aria-label="Abnoxious Edits home">
+  <span className="auth-brand-name">ABNOXIOUS EDITS</span>
+</a>
 
         <div className="auth-visual-copy">
           <span className="auth-kicker">New account</span>

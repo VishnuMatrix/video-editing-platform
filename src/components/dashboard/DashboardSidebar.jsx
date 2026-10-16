@@ -25,10 +25,9 @@ export default function DashboardSidebar({ role, navItems }) {
 
   return (
     <aside className="dashboard-sidebar">
-      <a className="dashboard-brand" href="/">
-        <span className="dashboard-brand-mark">OF</span>
-        <span className="dashboard-brand-name">Oneforedit</span>
-      </a>
+      <a className="dashboard-brand" href="/" aria-label="Abnoxious Edits home">
+  <span className="dashboard-brand-name">ABNOXIOUS EDITS</span>
+</a>
 
       <nav className="dashboard-nav-group">
         <div className="dashboard-nav-label">Navigation</div>
