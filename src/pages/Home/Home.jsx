@@ -5,6 +5,7 @@ import Showcase from "./sections/Showcase";
 import Footer from "../../components/footer/Footer";
 import { DEFAULT_ARCHIVE_VIDEOS, DEFAULT_FRAME_IMAGES, DEFAULT_GALLERY_VIDEOS, DEFAULT_HERO_VIDEO } from "../../data/homepageVideos";
 import { subscribeToHomepageContent } from "../../services/firestore/homepage";
+import FloatingBookingButton from "../../components/common/FloatingBookingButton";
 
 function Home() {
   const [homepageVideos, setHomepageVideos] = useState({
@@ -34,6 +35,7 @@ function Home() {
         frameImages={homepageVideos.frameImages}
       />
       <Footer />
+      <FloatingBookingButton/>
     </main>
   );
 }

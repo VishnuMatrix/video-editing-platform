@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import { useState } from "react";
 import "./About.css";
 
 import Navbar from "../../components/navbar/Navbar";
@@ -77,7 +78,7 @@ function About() {
   const [openFaq, setOpenFaq] = useState(null);
 
   const toggleFaq = (index) => {
-    setOpenFaq(openFaq === index ? null : index);
+    setOpenFaq((current) => (current === index ? null : index));
   };
 
   return (
@@ -158,7 +159,9 @@ function About() {
 
           <div className="agency-main">
             <div className="agency-brand">
-              <div className="agency-logo-mark">AE</div>
+              <div className="agency-logo-mark agency-full-brand">
+                ABNOXIOUS EDITS
+              </div>
 
               <span>ABNOXIOUS EDITS</span>
 
@@ -274,7 +277,7 @@ function About() {
         <div className="client-marquee">
           <div className="client-track">
             {[...services, ...services].map((service, index) => (
-              <div className="client-item" key={index}>
+              <div className="client-item" key={`${service}-${index}`}>
                 <span>{service}</span>
                 <b>•</b>
               </div>
@@ -337,8 +340,8 @@ function About() {
             <div className="faq-contact">
               <span>HAVE A PROJECT IN MIND?</span>
 
-              <a href="mailto:hello@abnoxiouedits.com">
-                hello@abnoxiouedits.com
+              <a href="mailto:adarshk17021947@gmail.com">
+                adarshk17021947@gmail.com
               </a>
 
               <small>WE WOULD LOVE TO HEAR FROM YOU.</small>
@@ -356,9 +359,9 @@ function About() {
                 <button
                   type="button"
                   onClick={() => toggleFaq(index)}
+                  aria-expanded={openFaq === index}
                 >
                   <span>{faq.question}</span>
-
                   <b>{openFaq === index ? "−" : "+"}</b>
                 </button>
 
@@ -376,7 +379,7 @@ function About() {
         <div className="cta-marquee">
           <div className="cta-track">
             {[...services, ...services].map((service, index) => (
-              <div key={index}>
+              <div key={`${service}-${index}`}>
                 <span>{service}</span>
                 <b>•</b>
               </div>
@@ -386,17 +389,17 @@ function About() {
 
         <div className="cta-card">
           <div className="cta-copy">
-            <span>06 / LET'S WORK TOGETHER</span>
+            <span>06 / LET&apos;S WORK TOGETHER</span>
 
             <h2>
               More Than Just Videos:
               <br />
-              <em>We're Your Creative Partners.</em>
+              <em>We&apos;re Your Creative Partners.</em>
             </h2>
 
             <p>
               Have a project, an idea or simply a story you want
-              to tell? Let's make something worth watching.
+              to tell? Let&apos;s make something worth watching.
             </p>
           </div>
 
@@ -411,3 +414,4 @@ function About() {
 }
 
 export default About;
+

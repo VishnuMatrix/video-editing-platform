@@ -1,0 +1,75 @@
+
+.floating-booking {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 9999;
+
+  width: 104px;
+  height: 104px;
+  border: 1px solid rgba(164, 126, 27, 0.8);
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  background: rgba(12, 12, 12, 0.88);
+  color: #f4f2ed;
+  text-decoration: none;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.floating-booking:hover {
+  background: #a47e1b;
+  border-color: #a47e1b;
+  color: #080808;
+  transform: scale(1.06);
+}
+
+.floating-booking-arrow {
+  font-size: 27px;
+  line-height: 1;
+}
+
+.floating-booking-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+@media (max-width: 700px) {
+  .floating-booking {
+    right: 18px;
+    bottom: 18px;
+    width: 82px;
+    height: 82px;
+  }
+
+  .floating-booking-arrow {
+    font-size: 23px;
+  }
+
+  .floating-booking-label {
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-booking {
+    transition: none;
+  }
+}
+

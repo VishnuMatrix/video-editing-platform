@@ -1,16 +1,7 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-
-/*
-  Replace this URL later with the designer's actual
-  Calendly / Cal.com / booking page.
-
-  Example:
-  https://cal.com/your-designer
-  https://calendly.com/your-designer
-*/
-const BOOKING_URL = "#";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,32 +10,20 @@ function Navbar() {
     setMenuOpen(false);
   };
 
-  const handleBooking = (event) => {
-    if (BOOKING_URL === "#") {
-      event.preventDefault();
-      alert("Booking calendar will be available soon.");
-    }
-  };
-
   return (
     <header className="navbar">
-
-      {/* ================================
-          LEFT
-      ================================= */}
-
+      {/* LEFT: MOBILE BRAND AND DESKTOP NAVIGATION */}
       <div className="navbar-left">
-
         <Link
           to="/"
-          className="navbar-logo-mobile"
+          className="navbar-logo-mobile navbar-mobile-full-brand"
           onClick={closeMenu}
+          aria-label="Abnoxious Edits home"
         >
-          AE
+          ABNOXIOUS EDITS
         </Link>
 
-        <nav className="navbar-links">
-
+        <nav className="navbar-links" aria-label="Main navigation">
           <Link to="/" onClick={closeMenu}>
             Home
           </Link>
@@ -60,106 +39,84 @@ function Navbar() {
           <Link to="/contact" onClick={closeMenu}>
             Contact
           </Link>
-
         </nav>
       </div>
 
-
-      {/* ================================
-          CENTER LOGO
-      ================================= */}
-
+      {/* CENTER: FULL BRAND NAME */}
       <Link
         to="/"
         className="navbar-logo"
         onClick={closeMenu}
+        aria-label="Abnoxious Edits home"
       >
-        <span className="logo-mark">
-          AE
-        </span>
-
-        <span className="logo-text">
+        <span className="logo-text navbar-full-brand">
           ABNOXIOUS EDITS
         </span>
       </Link>
 
-
-      {/* ================================
-          RIGHT
-      ================================= */}
-
+      {/* RIGHT: STATUS AND GET STARTED */}
       <div className="navbar-right">
-
         <span className="navbar-status">
           <span className="status-dot" />
           AVAILABLE
         </span>
 
-        <a
-          href={BOOKING_URL}
+        <Link
+          to="/login"
           className="navbar-button"
-          target={BOOKING_URL !== "#" ? "_blank" : undefined}
-          rel={BOOKING_URL !== "#" ? "noopener noreferrer" : undefined}
-          onClick={handleBooking}
+          onClick={closeMenu}
         >
-          BOOK NOW
-        </a>
+          GET STARTED
+        </Link>
 
         <button
           className={`menu-button ${menuOpen ? "active" : ""}`}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="navbar-mobile-menu"
           type="button"
         >
           <span />
           <span />
         </button>
-
       </div>
 
-
-      {/* ================================
-          MOBILE MENU
-      ================================= */}
-
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-
-        <Link to="/" onClick={closeMenu}>
+      {/* MOBILE MENU */}
+      <nav
+        id="navbar-mobile-menu"
+        className={`mobile-menu ${menuOpen ? "open" : ""}`}
+        aria-label="Mobile navigation"
+        aria-hidden={!menuOpen}
+      >
+        <Link to="/" onClick={closeMenu} tabIndex={menuOpen ? 0 : -1}>
           Home
         </Link>
 
-        <Link to="/about" onClick={closeMenu}>
+        <Link to="/about" onClick={closeMenu} tabIndex={menuOpen ? 0 : -1}>
           About
         </Link>
 
-        <Link to="/services" onClick={closeMenu}>
+        <Link to="/services" onClick={closeMenu} tabIndex={menuOpen ? 0 : -1}>
           Services
         </Link>
 
-        <Link to="/contact" onClick={closeMenu}>
+        <Link to="/contact" onClick={closeMenu} tabIndex={menuOpen ? 0 : -1}>
           Contact
         </Link>
 
-        <a
-          href={BOOKING_URL}
-          target={BOOKING_URL !== "#" ? "_blank" : undefined}
-          rel={
-            BOOKING_URL !== "#"
-              ? "noopener noreferrer"
-              : undefined
-          }
-          onClick={(event) => {
-            handleBooking(event);
-            closeMenu();
-          }}
+        <Link
+          to="/login"
+          className="mobile-get-started"
+          onClick={closeMenu}
+          tabIndex={menuOpen ? 0 : -1}
         >
-          Book Now
-        </a>
-
-      </div>
-
+          GET STARTED
+        </Link>
+      </nav>
     </header>
   );
 }
 
 export default Navbar;
+

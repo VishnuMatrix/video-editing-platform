@@ -1438,3 +1438,28 @@
     min-width: 0;
   }
 }
+
+
+/* Full brand name instead of the AE monogram */
+.agency-logo-mark.agency-full-brand {
+  width: auto;
+  max-width: 100%;
+  min-height: 46px;
+  height: auto;
+  padding: 12px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  color: var(--about-accent, #a47e1b);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
