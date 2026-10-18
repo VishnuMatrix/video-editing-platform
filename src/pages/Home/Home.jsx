@@ -5,6 +5,7 @@ import Showcase from "./sections/Showcase";
 import Footer from "../../components/footer/Footer";
 import { DEFAULT_ARCHIVE_VIDEOS, DEFAULT_FRAME_IMAGES, DEFAULT_GALLERY_VIDEOS, DEFAULT_HERO_VIDEO } from "../../data/homepageVideos";
 import { subscribeToHomepageContent } from "../../services/firestore/homepage";
+import { subscribeToHomepageReviews } from "../../services/firestore/reviews";
 import FloatingBookingButton from "../../components/common/FloatingBookingButton";
 
 function Home() {
@@ -14,6 +15,7 @@ function Home() {
     galleryVideos: DEFAULT_GALLERY_VIDEOS,
     archiveVideos: DEFAULT_ARCHIVE_VIDEOS,
   });
+  const [homepageReviews, setHomepageReviews] = useState([]);
 
   useEffect(() => subscribeToHomepageContent((content) => {
     if (!content) return;
@@ -25,6 +27,10 @@ function Home() {
     }));
   }, (error) => console.error('Failed to load homepage video content:', error)), []);
 
+  useEffect(() => subscribeToHomepageReviews(setHomepageReviews, (error) => {
+    console.error('Failed to load homepage reviews:', error);
+  }), []);
+
   return (
     <main className="home-page">
       <Navbar />
@@ -33,6 +39,7 @@ function Home() {
         galleryVideos={homepageVideos.galleryVideos}
         archiveVideos={homepageVideos.archiveVideos}
         frameImages={homepageVideos.frameImages}
+        submittedReviews={homepageReviews}
       />
       <Footer />
       <FloatingBookingButton/>

@@ -3,7 +3,7 @@ import DashboardLayout from '../../../components/dashboard/DashboardLayout';
 import ProjectStatusBadge from '../../../components/dashboard/ProjectStatusBadge';
 import { useAuth } from '../../../context/AuthContext';
 import { getClientProjects } from '../../../services/firestore/projects';
-import { addReview } from '../../../services/firestore/reviews';
+import { addReview, getClientReviews } from '../../../services/firestore/reviews';
 
 const navItems = [
   { label: 'Overview', path: '/dashboard/client', key: 'overview' },
@@ -15,7 +15,7 @@ const navItems = [
 ];
 
 export default function ClientProjects() {
-  const { user } = useAuth();
+  const { user, userProfile } = useAuth();
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -24,14 +24,24 @@ export default function ClientProjects() {
   const [feedbackError, setFeedbackError] = useState('');
   const [feedbackSuccessId, setFeedbackSuccessId] = useState('');
   const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+  const [submittedReviewProjectIds, setSubmittedReviewProjectIds] = useState(() => new Set());
+  const [reviewProjectId, setReviewProjectId] = useState('');
+  const [reviewText, setReviewText] = useState('');
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewError, setReviewError] = useState('');
+  const [reviewSuccessId, setReviewSuccessId] = useState('');
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   useEffect(() => {
     let isCurrent = true;
 
-    getClientProjects(user?.uid)
-      .then((items) => {
+    Promise.all([getClientProjects(user?.uid), getClientReviews(user?.uid)])
+      .then(([items, clientReviews]) => {
         if (isCurrent) {
           setProjects(items);
+          setSubmittedReviewProjectIds(new Set(
+            clientReviews.filter((review) => review.type === 'testimonial').map((review) => review.projectId)
+          ));
           setError('');
         }
       })
@@ -47,6 +57,41 @@ export default function ClientProjects() {
       isCurrent = false;
     };
   }, [user?.uid]);
+
+  const handleReviewSubmit = async (event, project) => {
+    event.preventDefault();
+    const feedback = reviewText.trim();
+    if (!feedback) {
+      setReviewError('Add a comment before submitting your review.');
+      return;
+    }
+
+    setIsSubmittingReview(true);
+    setReviewError('');
+    try {
+      await addReview({
+        type: 'testimonial',
+        projectId: project.id,
+        projectTitle: project.title || 'Project review',
+        clientId: user.uid,
+        feedback,
+        rating: reviewRating,
+        authorName: userProfile?.name || user.displayName || 'Client',
+        authorRole: userProfile?.company || 'Client',
+      });
+      setSubmittedReviewProjectIds((current) => new Set([...current, project.id]));
+      setReviewProjectId('');
+      setReviewText('');
+      setReviewSuccessId(project.id);
+    } catch (submitError) {
+      console.error('Failed to submit project review:', submitError);
+      setReviewError('Your review could not be submitted. Please try again.');
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
+
+  const isDelivered = (status) => String(status || '').toLowerCase().replace(/[\s-]+/g, '_') === 'completed';
 
   const handleFeedbackSubmit = async (event, projectId) => {
     event.preventDefault();
@@ -152,6 +197,66 @@ export default function ClientProjects() {
                       Leave feedback
                     </button>
                   )}
+
+                  {isDelivered(project.status) && !submittedReviewProjectIds.has(project.id) && (
+                    reviewProjectId === project.id ? (
+                      <form className="project-feedback-form project-review-form" onSubmit={(event) => handleReviewSubmit(event, project)}>
+                        <fieldset className="review-rating-fieldset">
+                          <legend>How was your experience?</legend>
+                          <div className="review-rating-options">
+                            {[1, 2, 3, 4, 5].map((rating) => (
+                              <label
+                                className={`review-rating-star${rating <= reviewRating ? ' is-selected' : ''}${rating === reviewRating ? ' is-current' : ''}`}
+                                htmlFor={`rating-${project.id}-${rating}`}
+                                key={rating}
+                              >
+                                <input
+                                  id={`rating-${project.id}-${rating}`}
+                                  type="radio"
+                                  name={`rating-${project.id}`}
+                                  value={rating}
+                                  checked={reviewRating === rating}
+                                  onChange={() => setReviewRating(rating)}
+                                />
+                                <span aria-hidden="true">★</span>
+                                <span className="sr-only">{rating} {rating === 1 ? 'star' : 'stars'}</span>
+                              </label>
+                            ))}
+                          </div>
+                          <span className="review-rating-caption" aria-live="polite">{reviewRating} out of 5 stars</span>
+                        </fieldset>
+                        <label className="form-field" htmlFor={`review-${project.id}`}>
+                          <span className="feedback-label">Your review</span>
+                          <textarea
+                            id={`review-${project.id}`}
+                            className="form-textarea compact-textarea"
+                            value={reviewText}
+                            onChange={(event) => setReviewText(event.target.value)}
+                            placeholder="Tell us about your experience."
+                            maxLength={2000}
+                          />
+                        </label>
+                        {reviewError && <p className="form-error" role="alert">{reviewError}</p>}
+                        <div className="table-actions">
+                          <button className="form-submit-btn" type="submit" disabled={isSubmittingReview}>
+                            {isSubmittingReview ? 'Submitting...' : 'Submit review'}
+                          </button>
+                          <button className="table-action-btn" type="button" onClick={() => setReviewProjectId('')}>Cancel</button>
+                        </div>
+                        <p className="review-publication-note">Reviews rated 5 stars may be featured on our homepage.</p>
+                      </form>
+                    ) : (
+                      <button className="table-action-btn write-review-btn" type="button" onClick={() => {
+                        setReviewProjectId(project.id);
+                        setReviewText('');
+                        setReviewRating(5);
+                        setReviewError('');
+                      }}>
+                        <span aria-hidden="true">✦</span> Write a review
+                      </button>
+                    )
+                  )}
+                  {reviewSuccessId === project.id && <p className="form-success" role="status">Thank you for sharing your experience.</p>}
                 </div>
               </article>
             ))}

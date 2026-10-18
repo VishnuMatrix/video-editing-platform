@@ -35,6 +35,24 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
     }
 
+    match /homepageReviews/{projectId} {
+      allow read: if true;
+      allow create: if isSignedIn()
+        && request.resource.data.keys().hasOnly(['text', 'author', 'role', 'rating', 'createdAt'])
+        && request.resource.data.keys().hasAll(['text', 'author', 'role', 'rating', 'createdAt'])
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 2000
+        && request.resource.data.author is string
+        && request.resource.data.role is string
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.rating == 5
+        && exists(/databases/$(database)/documents/projects/$(projectId))
+        && get(/databases/$(database)/documents/projects/$(projectId)).data.clientId == request.auth.uid
+        && get(/databases/$(database)/documents/projects/$(projectId)).data.status == 'completed';
+      allow update, delete: if isAdmin();
+    }
+
     match /homepageContent/{docId} {
       allow read: if true;
       allow write: if isAdmin();
