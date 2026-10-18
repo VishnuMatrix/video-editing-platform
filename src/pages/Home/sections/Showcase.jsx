@@ -313,7 +313,7 @@ function ReviewCard({ review, index }) {
    WORK SECTION
 ========================================================= */
 
-function Work({ projects }) {
+function Work({ projects, submittedReviews }) {
   const sectionRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -409,7 +409,7 @@ function Work({ projects }) {
         </div>
 
         <div className="showcase-review-grid">
-          {reviews.map((review, index) => (
+          {[...reviews, ...submittedReviews.filter((review) => review.rating > 4)].map((review, index) => (
             <ReviewCard
               key={index}
               review={review}
@@ -443,10 +443,11 @@ function Showcase({
   galleryVideos = DEFAULT_GALLERY_VIDEOS,
   archiveVideos = DEFAULT_ARCHIVE_VIDEOS,
   frameImages = DEFAULT_FRAME_IMAGES,
+  submittedReviews = [],
 }) {
   return (
     <div className="showcase-wrapper">
-      <Work projects={galleryVideos} />
+      <Work projects={galleryVideos} submittedReviews={submittedReviews} />
 
       <FrameViewer frameImages={frameImages} />
 

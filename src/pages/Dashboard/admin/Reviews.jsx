@@ -267,6 +267,16 @@ export default function Reviews() {
                               <span className="delivery-feedback-client">{clientName}</span>
                               <time>{formatDate(review.createdAt)}</time>
                             </div>
+                            {review.type === 'testimonial' && (
+                              <div className="delivery-review-rating">
+                                <span className="delivery-review-label">Project review</span>
+                                <span className="delivery-review-stars" aria-label={`${review.rating} out of 5 stars`}>
+                                  {'★'.repeat(Math.max(0, Math.min(5, Number(review.rating) || 0)))}
+                                  {'☆'.repeat(5 - Math.max(0, Math.min(5, Number(review.rating) || 0)))}
+                                </span>
+                                <strong>{review.rating}/5</strong>
+                              </div>
+                            )}
                             <blockquote className="review-quote">
                               <span className="review-quote-mark" aria-hidden="true">“</span>
                               <p>{review.feedback || review.comment || review.text || 'Feedback submitted.'}</p>

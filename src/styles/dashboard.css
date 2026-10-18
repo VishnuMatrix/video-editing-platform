@@ -715,6 +715,148 @@
   padding-top: 4px;
 }
 
+.review-publication-note {
+  margin: 0;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.8rem;
+}
+
+.write-review-btn {
+  width: fit-content;
+  gap: 8px;
+  border: 1px solid rgba(216,177,93,0.32);
+  background: linear-gradient(110deg, rgba(216,177,93,0.12), rgba(216,177,93,0.025));
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.write-review-btn > span {
+  color: var(--primary-strong);
+  transition: transform 180ms ease;
+}
+
+.write-review-btn:hover > span,
+.write-review-btn:focus-visible > span {
+  transform: rotate(45deg) scale(1.15);
+}
+
+.project-review-form {
+  position: relative;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(216,177,93,0.24);
+  border-radius: 12px;
+  background:
+    radial-gradient(ellipse at top right, rgba(216,177,93,0.1), transparent 46%),
+    linear-gradient(145deg, #191916, #111212 72%);
+  animation: review-panel-enter 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.project-review-form::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--primary-strong), transparent);
+  content: '';
+}
+
+.review-rating-fieldset {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.review-rating-fieldset legend {
+  margin-bottom: 8px;
+  color: var(--primary-strong);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.review-rating-options {
+  display: flex;
+  width: fit-content;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 9px;
+  background: rgba(0,0,0,0.22);
+}
+
+.review-rating-star {
+  position: relative;
+  display: grid;
+  width: 38px;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 6px;
+  color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.review-rating-star > span[aria-hidden] {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.review-rating-star.is-selected {
+  color: var(--primary-strong);
+  text-shadow: 0 0 14px rgba(216,177,93,0.35);
+}
+
+.review-rating-star.is-current {
+  background: rgba(216,177,93,0.16);
+  box-shadow: inset 0 0 0 1px rgba(216,177,93,0.32);
+  animation: rating-star-select 360ms cubic-bezier(0.2, 0.8, 0.25, 1.15) both;
+}
+
+.review-rating-star:hover {
+  transform: translateY(-2px) scale(1.08);
+}
+
+.review-rating-star:focus-within {
+  outline: 2px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
+.review-rating-star input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.review-rating-caption {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.75rem;
+}
+
+@keyframes review-panel-enter {
+  from { opacity: 0; transform: translateY(10px) scale(0.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes rating-star-select {
+  0% { transform: scale(0.72) rotate(-12deg); }
+  65% { transform: scale(1.2) rotate(5deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-review-form,
+  .review-rating-star.is-current {
+    animation: none;
+  }
+
+  .write-review-btn,
+  .write-review-btn > span,
+  .review-rating-star {
+    transition: none;
+  }
+}
+
 .profile-banner {
   position: relative;
   display: flex;
@@ -1956,6 +2098,34 @@
 .delivery-feedback-meta time {
   color: rgba(255,255,255,0.38);
   font-size: 0.66rem;
+}
+
+.delivery-review-rating {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.delivery-review-label {
+  padding: 3px 7px;
+  border: 1px solid rgba(216,177,93,0.2);
+  border-radius: 4px;
+  background: rgba(216,177,93,0.07);
+  color: var(--primary-strong);
+  font-size: 0.61rem;
+  text-transform: uppercase;
+}
+
+.delivery-review-stars {
+  color: var(--primary-strong);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+}
+
+.delivery-review-rating strong {
+  color: rgba(255,255,255,0.62);
+  font-size: 0.68rem;
 }
 
 .delivery-feedback-item .review-quote {
